@@ -1,0 +1,96 @@
+{
+ "lead": 0.25,
+ "gap": 0.25,
+ "end_pad": 0.9,
+ "end_hold": 2.6,
+ "reel": "reelPR",
+ "title": "As 4 peças do preço",
+ "segments": [
+  {
+   "id": "p0",
+   "text": "Desconto de verdade, ou metade do dobro? Antes da Black Friday, guarde quatro peças.",
+   "piece": "hook",
+   "bubble": null,
+   "name": null,
+   "keys": {},
+   "fx": {
+    "flip": "metade",
+    "push": "antes",
+    "bar": "quatro"
+   }
+  },
+  {
+   "id": "p1",
+   "text": "Primeiro, o anúncio. Tire print: o preço que a loja anuncia, ela tem que cumprir.",
+   "piece": "print",
+   "bubble": null,
+   "name": "a oferta obriga",
+   "keys": {
+    "land": "o",
+    "name": "anuncia"
+   },
+   "cite": "CDC, art. 30",
+   "fx": {
+    "shot": "print",
+    "ok": "cumprir"
+   }
+  },
+  {
+   "id": "p2",
+   "text": "Mas o preço antigo foi inventado? Desconto falso é publicidade enganosa, e a lei proíbe.",
+   "piece": "chart",
+   "bubble": null,
+   "name": "publicidade enganosa",
+   "keys": {
+    "land": "preço",
+    "name": "enganosa"
+   },
+   "cite": "CDC, art. 37, caput e § 1º",
+   "fx": {
+    "hi": "inventado",
+    "stamp": "enganosa"
+   }
+  },
+  {
+   "id": "p3",
+   "text": "E se a etiqueta mostra um preço e o caixa cobra outro? Você paga o menor.",
+   "piece": "menor",
+   "bubble": null,
+   "name": "vale o menor",
+   "keys": {
+    "land": "etiqueta",
+    "name": "outro"
+   },
+   "cite": "Lei 10.962/2004, art. 5º",
+   "fx": {
+    "caixa": "caixa",
+    "ring": "menor"
+   }
+  },
+  {
+   "id": "p4",
+   "text": "Mas a loja se recusa a cumprir? Então a escolha é sua: exigir a oferta, aceitar outro produto equivalente, ou cancelar e receber o dinheiro de volta.",
+   "piece": "escolha",
+   "bubble": null,
+   "name": "a escolha é sua",
+   "keys": {
+    "land": "loja",
+    "name": "escolha"
+   },
+   "cite": "CDC, art. 35",
+   "fx": {
+    "a": "exigir",
+    "b": "aceitar",
+    "c": "cancelar"
+   }
+  },
+  {
+   "id": "p5",
+   "text": "Quatro peças. Salve pra lembrar na Black Friday.",
+   "piece": "final",
+   "bubble": null,
+   "name": null,
+   "keys": {}
+  }
+ ]
+}

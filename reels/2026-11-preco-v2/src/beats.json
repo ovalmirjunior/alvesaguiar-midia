@@ -1,0 +1,61 @@
+{
+ "lead": 0.25,
+ "gap": 0.25,
+ "end_pad": 0.9,
+ "end_hold": 2.6,
+ "reel": "reelPR-v2",
+ "title": "Metade do dobro? Nessa Black Friday não!",
+ "bar": [["p0", null], ["p1", null], ["p2", null], ["p2", "zero_card"], ["p3", null], ["p4", null], ["p5", null]],
+ "segments": [
+  {
+   "id": "p0",
+   "role": "hook",
+   "text": "Metade do dobro? Nessa Black Friday não!",
+   "ramp": "ambar",
+   "cards": [{"text": "Metade do dobro?", "hi": "do dobro?", "at": null}],
+   "fx": {"push": "dobro", "out": "black", "banner": "friday", "nope": "não"}
+  },
+  {
+   "id": "p1",
+   "role": "context",
+   "text": "No site, a TV que você quer: de quatro mil por dois mil.",
+   "ramp": "ambar",
+   "cards": [{"text": "De 4.000 por 2.000", "hi": "por 2.000", "at": "price"}],
+   "fx": {"note": "tv", "price": "de", "under1": "quatro", "under2": "dois"}
+  },
+  {
+   "id": "p2",
+   "role": "conflict, then escalation",
+   "text": "Mas o histórico de preços mostra: ela custa dois mil desde agosto. Então o desconto é zero, e o cronômetro do site manda decidir agora.",
+   "ramp": "tijolo",
+   "cards": [{"text": "2.000 desde agosto", "hi": "desde agosto", "at": "line"}, {"text": "Desconto: zero", "hi": "zero", "at": "zero_card"}],
+   "fx": {"open": "histórico", "line": "dois", "zero_card": "então", "flip": "zero", "timer": "cronômetro"}
+  },
+  {
+   "id": "p3",
+   "role": "turn",
+   "text": "Mas preço antigo inventado é publicidade enganosa, e a lei proíbe.",
+   "ramp": "tijolo",
+   "cards": [{"text": "Publicidade enganosa", "hi": "enganosa", "at": "card"}],
+   "cite": "CDC, art. 37, caput e § 1º",
+   "fx": {"ask": "inventado", "card": "publicidade", "strip": "enganosa", "stop": "proíbe"}
+  },
+  {
+   "id": "p4",
+   "role": "payoff and action",
+   "text": "Então, antes de pagar, abra um comparador de preços. O preço antigo não aparece? Tire print do anúncio e do histórico e denuncie no Procon.",
+   "ramp": "ambar",
+   "cards": [{"text": "Confira o histórico", "hi": "histórico", "at": null}, {"text": "Print e Procon", "hi": "Procon", "at": "tire"}],
+   "cite": "Decreto 2.181/1997, art. 4º",
+   "fx": {"lens": "comparador", "scan": "antigo", "tire": "tire", "shot1": "anúncio", "shot2": "histórico", "env": "denuncie", "tuck": "procon"}
+  },
+  {
+   "id": "p5",
+   "role": "send-ask",
+   "text": "Mande para quem vai comprar na Black Friday.",
+   "ramp": "ambar",
+   "cards": [{"text": "Mande para quem", "hi": "para quem", "at": null}, {"text": "vai comprar", "hi": "comprar", "at": "vai"}],
+   "fx": {"plane": "mande", "vai": "vai"}
+  }
+ ]
+}

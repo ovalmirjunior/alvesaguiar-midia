@@ -1,0 +1,665 @@
+{
+ "lead": 0.25,
+ "gap": 0.25,
+ "end_pad": 0.9,
+ "end_hold": 2.6,
+ "reel": "reelPR-v2",
+ "title": "Essa TV pela metade nunca custou o dobro",
+ "bar": [
+  [
+   "p0",
+   null
+  ],
+  [
+   "p1",
+   null
+  ],
+  [
+   "p2",
+   null
+  ],
+  [
+   "p2",
+   "zero_card"
+  ],
+  [
+   "p3",
+   null
+  ],
+  [
+   "p4",
+   null
+  ],
+  [
+   "p5",
+   null
+  ]
+ ],
+ "segments": [
+  {
+   "id": "p0",
+   "role": "hook",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "Metade de quê?",
+     "hi": "de quê?",
+     "at": null
+    }
+   ],
+   "fx": {
+    "hop": "metade",
+    "push": "dobro"
+   },
+   "t0": -0.05,
+   "t1": 2.544,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     0.25,
+     0.49,
+     "Essa"
+    ],
+    [
+     0.507,
+     0.664,
+     "TV"
+    ],
+    [
+     0.681,
+     0.921,
+     "pela"
+    ],
+    [
+     0.938,
+     1.298,
+     "metade"
+    ],
+    [
+     1.316,
+     1.616,
+     "nunca"
+    ],
+    [
+     1.633,
+     1.993,
+     "custou"
+    ],
+    [
+     2.01,
+     2.167,
+     "o"
+    ],
+    [
+     2.184,
+     2.544,
+     "dobro."
+    ]
+   ]
+  },
+  {
+   "id": "p1",
+   "role": "context",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "De 4.000 por 2.000",
+     "hi": "por 2.000",
+     "at": "price"
+    }
+   ],
+   "fx": {
+    "out": "black",
+    "banner": "friday",
+    "note": "tv",
+    "price": "de",
+    "under1": "quatro",
+    "under2": "dois"
+   },
+   "t0": 2.598,
+   "t1": 6.967,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     2.898,
+     3.198,
+     "Black"
+    ],
+    [
+     3.215,
+     3.635,
+     "Friday."
+    ],
+    [
+     3.74,
+     3.896,
+     "No"
+    ],
+    [
+     3.913,
+     4.213,
+     "site,"
+    ],
+    [
+     4.318,
+     4.474,
+     "a"
+    ],
+    [
+     4.492,
+     4.648,
+     "TV"
+    ],
+    [
+     4.666,
+     4.845,
+     "que"
+    ],
+    [
+     4.863,
+     5.103,
+     "você"
+    ],
+    [
+     5.12,
+     5.42,
+     "quer:"
+    ],
+    [
+     5.524,
+     5.681,
+     "de"
+    ],
+    [
+     5.698,
+     6.058,
+     "quatro"
+    ],
+    [
+     6.075,
+     6.255,
+     "mil"
+    ],
+    [
+     6.273,
+     6.453,
+     "por"
+    ],
+    [
+     6.47,
+     6.71,
+     "dois"
+    ],
+    [
+     6.727,
+     6.967,
+     "mil."
+    ]
+   ]
+  },
+  {
+   "id": "p2",
+   "role": "conflict, then escalation",
+   "ramp": "tijolo",
+   "cards": [
+    {
+     "text": "2.000 desde agosto",
+     "hi": "desde agosto",
+     "at": "line"
+    },
+    {
+     "text": "Desconto: zero",
+     "hi": "zero",
+     "at": "zero_card"
+    }
+   ],
+   "fx": {
+    "open": "histórico",
+    "line": "dois",
+    "zero_card": "então",
+    "flip": "zero",
+    "timer": "cronômetro"
+   },
+   "t0": 7.022,
+   "t1": 15.212,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     7.322,
+     7.501,
+     "Mas"
+    ],
+    [
+     7.519,
+     7.675,
+     "o"
+    ],
+    [
+     7.693,
+     8.232,
+     "histórico"
+    ],
+    [
+     8.25,
+     8.406,
+     "de"
+    ],
+    [
+     8.424,
+     8.784,
+     "preços"
+    ],
+    [
+     8.801,
+     9.221,
+     "mostra:"
+    ],
+    [
+     9.325,
+     9.505,
+     "ela"
+    ],
+    [
+     9.522,
+     9.822,
+     "custa"
+    ],
+    [
+     9.84,
+     10.08,
+     "dois"
+    ],
+    [
+     10.097,
+     10.277,
+     "mil"
+    ],
+    [
+     10.294,
+     10.594,
+     "desde"
+    ],
+    [
+     10.611,
+     11.031,
+     "agosto."
+    ],
+    [
+     11.136,
+     11.435,
+     "Então"
+    ],
+    [
+     11.453,
+     11.609,
+     "o"
+    ],
+    [
+     11.627,
+     12.107,
+     "desconto"
+    ],
+    [
+     12.124,
+     12.28,
+     "é"
+    ],
+    [
+     12.298,
+     12.598,
+     "zero,"
+    ],
+    [
+     12.702,
+     12.859,
+     "e"
+    ],
+    [
+     12.876,
+     13.032,
+     "o"
+    ],
+    [
+     13.05,
+     13.65,
+     "cronômetro"
+    ],
+    [
+     13.667,
+     13.823,
+     "do"
+    ],
+    [
+     13.841,
+     14.081,
+     "site"
+    ],
+    [
+     14.098,
+     14.398,
+     "manda"
+    ],
+    [
+     14.415,
+     14.835,
+     "decidir"
+    ],
+    [
+     14.853,
+     15.212,
+     "agora."
+    ]
+   ]
+  },
+  {
+   "id": "p3",
+   "role": "turn",
+   "ramp": "tijolo",
+   "cards": [
+    {
+     "text": "Publicidade enganosa",
+     "hi": "enganosa",
+     "at": "card"
+    }
+   ],
+   "cite": "CDC, art. 37, caput e § 1º",
+   "fx": {
+    "ask": "inventado",
+    "card": "publicidade",
+    "strip": "enganosa",
+    "stop": "proíbe"
+   },
+   "t0": 15.267,
+   "t1": 19.476,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     15.567,
+     15.747,
+     "Mas"
+    ],
+    [
+     15.764,
+     16.064,
+     "preço"
+    ],
+    [
+     16.081,
+     16.441,
+     "antigo"
+    ],
+    [
+     16.458,
+     16.998,
+     "inventado"
+    ],
+    [
+     17.016,
+     17.172,
+     "é"
+    ],
+    [
+     17.19,
+     17.849,
+     "publicidade"
+    ],
+    [
+     17.867,
+     18.406,
+     "enganosa,"
+    ],
+    [
+     18.511,
+     18.667,
+     "e"
+    ],
+    [
+     18.685,
+     18.841,
+     "a"
+    ],
+    [
+     18.858,
+     19.038,
+     "lei"
+    ],
+    [
+     19.056,
+     19.476,
+     "proíbe."
+    ]
+   ]
+  },
+  {
+   "id": "p4",
+   "role": "payoff and action",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "Confira o histórico",
+     "hi": "histórico",
+     "at": null
+    },
+    {
+     "text": "Print e Procon",
+     "hi": "Procon",
+     "at": "tire"
+    }
+   ],
+   "cite": "Decreto 2.181/1997, art. 4º",
+   "fx": {
+    "lens": "comparador",
+    "scan": "antigo",
+    "tire": "tire",
+    "shot1": "anúncio",
+    "shot2": "histórico",
+    "env": "denuncie",
+    "tuck": "procon"
+   },
+   "t0": 19.53,
+   "t1": 28.001,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     19.83,
+     20.19,
+     "Então,"
+    ],
+    [
+     20.294,
+     20.594,
+     "antes"
+    ],
+    [
+     20.611,
+     20.768,
+     "de"
+    ],
+    [
+     20.785,
+     21.145,
+     "pagar,"
+    ],
+    [
+     21.249,
+     21.489,
+     "abra"
+    ],
+    [
+     21.507,
+     21.663,
+     "um"
+    ],
+    [
+     21.681,
+     22.28,
+     "comparador"
+    ],
+    [
+     22.298,
+     22.454,
+     "de"
+    ],
+    [
+     22.472,
+     22.891,
+     "preços."
+    ],
+    [
+     22.996,
+     23.152,
+     "O"
+    ],
+    [
+     23.17,
+     23.469,
+     "preço"
+    ],
+    [
+     23.487,
+     23.847,
+     "antigo"
+    ],
+    [
+     23.864,
+     24.044,
+     "não"
+    ],
+    [
+     24.061,
+     24.541,
+     "aparece?"
+    ],
+    [
+     24.646,
+     24.885,
+     "Tire"
+    ],
+    [
+     24.903,
+     25.203,
+     "print"
+    ],
+    [
+     25.22,
+     25.377,
+     "do"
+    ],
+    [
+     25.394,
+     25.814,
+     "anúncio"
+    ],
+    [
+     25.831,
+     25.988,
+     "e"
+    ],
+    [
+     26.005,
+     26.162,
+     "do"
+    ],
+    [
+     26.179,
+     26.719,
+     "histórico"
+    ],
+    [
+     26.736,
+     26.893,
+     "e"
+    ],
+    [
+     26.91,
+     27.39,
+     "denuncie"
+    ],
+    [
+     27.407,
+     27.564,
+     "no"
+    ],
+    [
+     27.581,
+     28.001,
+     "Procon."
+    ]
+   ]
+  },
+  {
+   "id": "p5",
+   "role": "send-ask",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "Mande para quem",
+     "hi": "para quem",
+     "at": null
+    },
+    {
+     "text": "vai comprar",
+     "hi": "comprar",
+     "at": "vai"
+    }
+   ],
+   "fx": {
+    "plane": "mande",
+    "vai": "vai"
+   },
+   "t0": 28.055,
+   "t1": 30.732,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     28.355,
+     28.655,
+     "Mande"
+    ],
+    [
+     28.672,
+     28.912,
+     "para"
+    ],
+    [
+     28.93,
+     29.17,
+     "quem"
+    ],
+    [
+     29.187,
+     29.367,
+     "vai"
+    ],
+    [
+     29.384,
+     29.804,
+     "comprar"
+    ],
+    [
+     29.821,
+     29.978,
+     "na"
+    ],
+    [
+     29.995,
+     30.295,
+     "Black"
+    ],
+    [
+     30.313,
+     30.732,
+     "Friday."
+    ]
+   ]
+  }
+ ],
+ "end_t": 31.632,
+ "dur": 34.232
+}

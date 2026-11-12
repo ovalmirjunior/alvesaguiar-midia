@@ -1,0 +1,650 @@
+{
+ "lead": 0.25,
+ "gap": 0.25,
+ "end_pad": 0.9,
+ "end_hold": 2.6,
+ "reel": "reelPR-v2",
+ "title": "Metade do dobro? Nessa Black Friday não!",
+ "bar": [
+  [
+   "p0",
+   null
+  ],
+  [
+   "p1",
+   null
+  ],
+  [
+   "p2",
+   null
+  ],
+  [
+   "p2",
+   "zero_card"
+  ],
+  [
+   "p3",
+   null
+  ],
+  [
+   "p4",
+   null
+  ],
+  [
+   "p5",
+   null
+  ]
+ ],
+ "segments": [
+  {
+   "id": "p0",
+   "role": "hook",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "Metade do dobro?",
+     "hi": "do dobro?",
+     "at": null
+    }
+   ],
+   "fx": {
+    "push": "dobro",
+    "out": "black",
+    "banner": "friday",
+    "nope": "não"
+   },
+   "t0": -0.045,
+   "t1": 2.612,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     0.255,
+     0.779,
+     "Metade"
+    ],
+    [
+     0.779,
+     1.011,
+     "do"
+    ],
+    [
+     1.011,
+     1.39,
+     "dobro?"
+    ],
+    [
+     1.39,
+     1.768,
+     "Nessa"
+    ],
+    [
+     1.768,
+     2.001,
+     "Black"
+    ],
+    [
+     2.001,
+     2.379,
+     "Friday"
+    ],
+    [
+     2.379,
+     2.612,
+     "não!"
+    ]
+   ]
+  },
+  {
+   "id": "p1",
+   "role": "context",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "De 4.000 por 2.000",
+     "hi": "por 2.000",
+     "at": "price"
+    }
+   ],
+   "fx": {
+    "note": "tv",
+    "price": "de",
+    "under1": "quatro",
+    "under2": "dois"
+   },
+   "t0": 2.617,
+   "t1": 7.249,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     2.917,
+     3.207,
+     "No"
+    ],
+    [
+     3.207,
+     3.679,
+     "site,"
+    ],
+    [
+     3.928,
+     4.127,
+     "a"
+    ],
+    [
+     4.127,
+     4.327,
+     "TV"
+    ],
+    [
+     4.327,
+     4.526,
+     "que"
+    ],
+    [
+     4.526,
+     4.85,
+     "você"
+    ],
+    [
+     4.85,
+     5.049,
+     "quer:"
+    ],
+    [
+     5.445,
+     5.717,
+     "de"
+    ],
+    [
+     5.717,
+     6.16,
+     "quatro"
+    ],
+    [
+     6.16,
+     6.432,
+     "mil"
+    ],
+    [
+     6.432,
+     6.704,
+     "por"
+    ],
+    [
+     6.704,
+     6.977,
+     "dois"
+    ],
+    [
+     6.977,
+     7.249,
+     "mil."
+    ]
+   ]
+  },
+  {
+   "id": "p2",
+   "role": "conflict, then escalation",
+   "ramp": "tijolo",
+   "cards": [
+    {
+     "text": "2.000 desde agosto",
+     "hi": "desde agosto",
+     "at": "line"
+    },
+    {
+     "text": "Desconto: zero",
+     "hi": "zero",
+     "at": "zero_card"
+    }
+   ],
+   "fx": {
+    "open": "histórico",
+    "line": "dois",
+    "zero_card": "então",
+    "flip": "zero",
+    "timer": "cronômetro"
+   },
+   "t0": 7.254,
+   "t1": 16.057,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     7.554,
+     7.747,
+     "Mas"
+    ],
+    [
+     7.747,
+     7.941,
+     "o"
+    ],
+    [
+     7.941,
+     8.497,
+     "histórico"
+    ],
+    [
+     8.497,
+     8.691,
+     "de"
+    ],
+    [
+     8.691,
+     9.005,
+     "preços"
+    ],
+    [
+     9.005,
+     9.32,
+     "mostra:"
+    ],
+    [
+     9.716,
+     10.067,
+     "ela"
+    ],
+    [
+     10.067,
+     10.418,
+     "custa"
+    ],
+    [
+     10.418,
+     10.634,
+     "dois"
+    ],
+    [
+     10.634,
+     10.851,
+     "mil"
+    ],
+    [
+     10.851,
+     11.202,
+     "desde"
+    ],
+    [
+     11.202,
+     11.688,
+     "agosto."
+    ],
+    [
+     12.095,
+     12.386,
+     "Então"
+    ],
+    [
+     12.386,
+     12.565,
+     "o"
+    ],
+    [
+     12.565,
+     12.968,
+     "desconto"
+    ],
+    [
+     12.968,
+     13.147,
+     "é"
+    ],
+    [
+     13.147,
+     13.438,
+     "zero,"
+    ],
+    [
+     13.687,
+     13.861,
+     "e"
+    ],
+    [
+     13.861,
+     14.035,
+     "o"
+    ],
+    [
+     14.035,
+     14.535,
+     "cronômetro"
+    ],
+    [
+     14.535,
+     14.709,
+     "do"
+    ],
+    [
+     14.709,
+     14.991,
+     "site"
+    ],
+    [
+     14.991,
+     15.274,
+     "manda"
+    ],
+    [
+     15.274,
+     15.666,
+     "decidir"
+    ],
+    [
+     15.666,
+     16.057,
+     "agora."
+    ]
+   ]
+  },
+  {
+   "id": "p3",
+   "role": "turn",
+   "ramp": "tijolo",
+   "cards": [
+    {
+     "text": "Publicidade enganosa",
+     "hi": "enganosa",
+     "at": "card"
+    }
+   ],
+   "cite": "CDC, art. 37, caput e § 1º",
+   "fx": {
+    "ask": "inventado",
+    "card": "publicidade",
+    "strip": "enganosa",
+    "stop": "proíbe"
+   },
+   "t0": 16.062,
+   "t1": 20.083,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     16.362,
+     16.55,
+     "Mas"
+    ],
+    [
+     16.55,
+     16.857,
+     "preço"
+    ],
+    [
+     16.857,
+     17.281,
+     "antigo"
+    ],
+    [
+     17.281,
+     17.822,
+     "inventado"
+    ],
+    [
+     17.822,
+     18.011,
+     "é"
+    ],
+    [
+     18.011,
+     18.67,
+     "publicidade"
+    ],
+    [
+     18.67,
+     19.212,
+     "enganosa,"
+    ],
+    [
+     19.212,
+     19.4,
+     "e"
+    ],
+    [
+     19.4,
+     19.589,
+     "a"
+    ],
+    [
+     19.589,
+     19.777,
+     "lei"
+    ],
+    [
+     19.777,
+     20.083,
+     "proíbe."
+    ]
+   ]
+  },
+  {
+   "id": "p4",
+   "role": "payoff and action",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "Confira o histórico",
+     "hi": "histórico",
+     "at": null
+    },
+    {
+     "text": "Print e Procon",
+     "hi": "Procon",
+     "at": "tire"
+    }
+   ],
+   "cite": "Decreto 2.181/1997, art. 4º",
+   "fx": {
+    "lens": "comparador",
+    "scan": "antigo",
+    "tire": "tire",
+    "shot1": "anúncio",
+    "shot2": "histórico",
+    "env": "denuncie",
+    "tuck": "procon"
+   },
+   "t0": 20.088,
+   "t1": 28.893,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     20.388,
+     20.802,
+     "Então,"
+    ],
+    [
+     21.081,
+     21.405,
+     "antes"
+    ],
+    [
+     21.405,
+     21.604,
+     "de"
+    ],
+    [
+     21.604,
+     21.927,
+     "pagar,"
+    ],
+    [
+     22.186,
+     22.467,
+     "abra"
+    ],
+    [
+     22.467,
+     22.641,
+     "um"
+    ],
+    [
+     22.641,
+     23.139,
+     "comparador"
+    ],
+    [
+     23.139,
+     23.312,
+     "de"
+    ],
+    [
+     23.312,
+     23.593,
+     "preços."
+    ],
+    [
+     24.0,
+     24.144,
+     "O"
+    ],
+    [
+     24.144,
+     24.378,
+     "preço"
+    ],
+    [
+     24.378,
+     24.703,
+     "antigo"
+    ],
+    [
+     24.703,
+     24.847,
+     "não"
+    ],
+    [
+     24.847,
+     25.262,
+     "aparece?"
+    ],
+    [
+     25.743,
+     26.051,
+     "Tire"
+    ],
+    [
+     26.051,
+     26.24,
+     "print"
+    ],
+    [
+     26.24,
+     26.43,
+     "do"
+    ],
+    [
+     26.43,
+     26.856,
+     "anúncio"
+    ],
+    [
+     26.856,
+     27.046,
+     "e"
+    ],
+    [
+     27.046,
+     27.235,
+     "do"
+    ],
+    [
+     27.235,
+     27.78,
+     "histórico"
+    ],
+    [
+     27.78,
+     27.969,
+     "e"
+    ],
+    [
+     27.969,
+     28.395,
+     "denuncie"
+    ],
+    [
+     28.395,
+     28.585,
+     "no"
+    ],
+    [
+     28.585,
+     28.893,
+     "Procon."
+    ]
+   ]
+  },
+  {
+   "id": "p5",
+   "role": "send-ask",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "Mande para quem",
+     "hi": "para quem",
+     "at": null
+    },
+    {
+     "text": "vai comprar",
+     "hi": "comprar",
+     "at": "vai"
+    }
+   ],
+   "fx": {
+    "plane": "mande",
+    "vai": "vai"
+   },
+   "t0": 28.898,
+   "t1": 31.623,
+   "land": null,
+   "name_t": null,
+   "words": [
+    [
+     29.198,
+     29.573,
+     "Mande"
+    ],
+    [
+     29.573,
+     29.948,
+     "para"
+    ],
+    [
+     29.948,
+     30.179,
+     "quem"
+    ],
+    [
+     30.179,
+     30.41,
+     "vai"
+    ],
+    [
+     30.41,
+     30.785,
+     "comprar"
+    ],
+    [
+     30.785,
+     31.016,
+     "na"
+    ],
+    [
+     31.016,
+     31.247,
+     "Black"
+    ],
+    [
+     31.247,
+     31.623,
+     "Friday."
+    ]
+   ]
+  }
+ ],
+ "end_t": 32.523,
+ "dur": 35.123
+}

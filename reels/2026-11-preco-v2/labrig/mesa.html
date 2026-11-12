@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<!-- reelPR v2 "Metade do dobro? Nessa Black Friday não!": one desk shot from above (phone, price-history paper, small paper props on a dark leather mat).
+     Frame at time t depends only on t: window.setT(t). Cues: ?cues= or cues_mesa.json. window.READY turns true after fonts, cues and textures loaded.
+     Quality switches in the URL: ?ss=1|2|3 supersampling factor (default 2), ?ms=0|2|4 MSAA samples of the render target (default 4).
+     Safe zones (1080x1920): text at y 260..1700; for y 940..1846 text only at x < 886. window.TEXTRECTS() lists every text box on screen (DOM and 3D).
+     Layout bands: progress bar y 268..288; card y 312..430; desk objects y 455..1420; caption y 1436..1561; citation y 1582..1656 (x 180..880); badge y 1592..1692 (x 60..160).
+     Colours (areas/work/content/brand-guide.md in the vault): mat Noite, Marinho, neutrals, and two accent ramps only: Âmbar (price) and Tijolo (alert, myth).
+     Realism: physically based materials, image-based light from a small studio scene, generated leather and paper maps (tools/gen_textures.py),
+     a key spot light with a shadow map, a contact shadow under every object, 2x supersampling with MSAA, a soft filmic curve without a toe. -->
+<style>
+@font-face{font-family:P;src:url(/fonts/Poppins-Bold.ttf)}
+@font-face{font-family:NR;font-weight:500;src:url(/fonts/newsreader-latin-500-normal.woff2)}
+@font-face{font-family:NR;font-weight:400;font-style:italic;src:url(/fonts/newsreader-latin-400-italic.woff2)}
+@font-face{font-family:HG;font-weight:400;src:url(/fonts/hanken-grotesk-latin-400-normal.woff2)}
+@font-face{font-family:HG;font-weight:600;src:url(/fonts/hanken-grotesk-latin-600-normal.woff2)}
+@font-face{font-family:HG;font-weight:700;src:url(/fonts/hanken-grotesk-latin-700-normal.woff2)}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#0A0C10}
+#c{position:absolute;inset:0;width:1080px;height:1920px}
+.bar{position:absolute;top:268px;left:56px;right:56px;height:20px;display:flex;gap:10px;opacity:0}
+.bar i{flex:1;background:rgba(242,244,247,.16);border-radius:10px;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(242,244,247,.36)}
+.bar b{display:block;height:100%;width:0;border-radius:10px}
+.hd{position:absolute;left:56px;top:312px;width:968px;color:#F2F4F7;opacity:0}
+.ttl{position:relative;font:700 92px/1.1 P;letter-spacing:-1px;white-space:nowrap;text-shadow:0 3px 18px rgba(0,0,0,.6)}
+.ttl b{font-weight:700}
+.rule{margin-top:6px;height:8px;border-radius:4px;width:0}
+.cap{position:absolute;left:40px;width:840px;top:1436px;text-align:center;opacity:0}
+.pill{display:inline-block;position:relative;padding:.093em .349em .163em;border-radius:.349em;background:rgba(10,12,16,.9);box-shadow:inset 0 0 0 2px rgba(242,244,247,.18);font:700 86px/1.2 P;color:#F2F4F7;white-space:nowrap}
+.pill .on{color:var(--on,#F2C14E)}.pill .next{color:rgba(242,244,247,.45)}
+.cite{position:absolute;left:180px;width:700px;top:1582px;text-align:center;opacity:0}
+.cite span{display:inline-block;position:relative;padding:.262em .714em .31em;border-radius:.95em;background:rgba(10,12,16,.92);box-shadow:inset 0 0 0 3px #F2F4F7;color:#F2F4F7;font:700 42px/1.1 P;white-space:nowrap}
+.badge{position:absolute;left:60px;top:1592px;width:100px;height:100px;box-sizing:border-box;border-radius:50%;border:2px solid #F2F4F7;background:rgba(31,63,110,.7);opacity:.6;display:flex;align-items:center;justify-content:center}
+.end{position:absolute;inset:0;color:#F2F4F7;font-family:HG,'Helvetica Neue',Arial,sans-serif;background:radial-gradient(120% 70% at 50% 38%,#24497f 0%,#1F3F6E 55%,#183358 100%);opacity:0;display:none}
+.end .f{position:absolute;left:104px;right:210px}
+.end .ehead{top:300px;display:flex;align-items:center;gap:22px}
+.end .ehead span{font-weight:600;font-size:30px;letter-spacing:.24em;text-transform:uppercase;color:#C3CCDA;white-space:nowrap}
+.end .erule{top:446px;height:2px;background:rgba(157,180,214,.35)}
+.end .elabel{top:590px;font-weight:700;font-size:30px;letter-spacing:.18em;text-transform:uppercase;color:#F2C14E}
+.end h1{top:640px;margin:0;font-family:NR,Georgia,serif;font-weight:500;font-size:132px;line-height:.98;letter-spacing:-.03em;color:#F2F4F7}
+.end h1 em{font-style:normal;color:#F2C14E}
+.end .edisc{top:1090px;font-size:36px;line-height:1.42;color:#C3CCDA}
+.end .esign{top:1330px;display:flex;align-items:center;gap:30px;padding-top:44px;border-top:2px solid rgba(157,180,214,.35)}
+.end .nm{font-family:NR,Georgia,serif;font-style:italic;font-weight:400;font-size:66px;line-height:1;color:#F2F4F7;white-space:nowrap}
+.end .oab{margin-top:12px;font-weight:600;font-size:32px;letter-spacing:.16em;color:#C3CCDA;white-space:nowrap}
+.end .url{margin-left:auto;align-self:flex-end;font-size:28px;letter-spacing:.04em;color:#C3CCDA}
+</style>
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+</head><body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<div class="bar" id="bar"></div>
+<div class="hd" id="hd"><div class="ttl" id="ttl"></div><div class="rule" id="rule"></div></div>
+<div class="cap" id="cap"><span class="pill" id="pill"></span></div>
+<div class="cite" id="cite"><span id="citet"></span></div>
+<div class="badge" id="badge"><svg width="58" height="58" viewBox="0 0 112 112" fill="none"><path d="M12 96 L56 14 L100 96" stroke="#F2F4F7" stroke-width="7" stroke-linejoin="miter"/><path d="M34 96 L56 54 L78 96" stroke="#F2F4F7" stroke-width="7" stroke-linejoin="miter"/><path d="M42 80 L70 80" stroke="#F2F4F7" stroke-width="7"/></svg></div>
+<div class="end" id="end">
+ <div class="ehead f" data-d="0"><svg width="88" height="88" viewBox="0 0 112 112" fill="none"><path d="M12 96 L56 14 L100 96" stroke="#9DB4D6" stroke-width="6" stroke-linejoin="miter"/><path d="M34 96 L56 54 L78 96" stroke="#9DB4D6" stroke-width="6" stroke-linejoin="miter"/><path d="M42 80 L70 80" stroke="#9DB4D6" stroke-width="6"/></svg><span>Alves Aguiar Advocacia</span></div>
+ <div class="erule f" data-d="0"></div>
+ <div class="elabel f" data-d=".12">Direito do consumidor</div>
+ <h1 class="f" data-d=".2">Mande para<br>quem vai<br><em>comprar.</em></h1>
+ <div class="edisc f" data-d=".34">Conteúdo informativo. Não substitui a análise de um caso concreto.</div>
+ <div class="esign f" data-d=".46"><svg width="104" height="104" viewBox="0 0 112 112" fill="none"><path d="M12 16 L56 98 L100 16" stroke="#9DB4D6" stroke-width="5" stroke-linejoin="miter"/><path d="M40 52 L56 20 L72 52" stroke="#9DB4D6" stroke-width="5" stroke-linejoin="miter"/><path d="M45 42 L67 42" stroke="#9DB4D6" stroke-width="5"/></svg>
+  <div><div class="nm">Valmir Aguiar</div><div class="oab">OAB/CE 33.267</div></div><div class="url">alvesaguiar.adv.br</div></div>
+</div>
+<script type="module">
+import * as THREE from 'three';
+// seeded random: the page never uses a time-based or unseeded source
+{let a=0x9E3779B9;Math.random=()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const Q=new URLSearchParams(location.search);
+await Promise.all(['700 100px P','500 100px NR','italic 400 60px NR','400 30px HG','600 30px HG','700 30px HG'].map(f=>document.fonts.load(f)));
+const CUES=await (await fetch(Q.get('cues')||'cues_mesa.json')).json();
+const W=1080,H=1920;
+const SS=Math.max(1,Math.min(3,Math.round(+(Q.get('ss')||2)))), MS=Math.max(0,Math.min(8,Math.round(+(Q.get('ms')??4))));
+
+// ---------- colours (brand-guide.md): array index = tone, 1 darkest to 5 lightest
+const NOITE='#0A0C10', LIGHT='#F2F4F7', CLARO='#F2F4F7', TINTA='#0F1722', MUTEDL='#5B6472', MARINHO='#1F3F6E',
+ AMBAR=['','#1E1206','#5C3A0E','#9A6110','#F2C14E','#FFF0C9'], TIJOLO=['','#24100A','#6E2A14','#B4532A','#F08A5D','#FDE3D4'];
+const RAMP={ambar:AMBAR,tijolo:TIJOLO};
+const hex=c=>[1,3,5].map(i=>parseInt(c.slice(i,i+2),16)),mixc=(a,b,k)=>{const A=hex(a),B=hex(b);return 'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*k)).join(',')+')'};
+
+// ---------- renderer: the scene is drawn linear into a supersampled float target, then one pass filters it down, tone maps and writes sRGB
+const r=new THREE.WebGLRenderer({canvas:document.getElementById('c'),antialias:false,preserveDrawingBuffer:true,powerPreference:'high-performance'});
+r.setPixelRatio(1); r.setSize(W,H,false); r.shadowMap.enabled=true; r.shadowMap.type=THREE.PCFShadowMap; r.toneMapping=THREE.NoToneMapping;
+const ANISO=r.capabilities.getMaxAnisotropy();
+const RT=new THREE.WebGLRenderTarget(W*SS,H*SS,{samples:MS,type:THREE.HalfFloatType,minFilter:THREE.LinearMipmapLinearFilter,magFilter:THREE.LinearFilter,generateMipmaps:true,depthBuffer:true});
+const post=new THREE.ShaderMaterial({depthTest:false,depthWrite:false,toneMapped:false,
+ uniforms:{tD:{value:RT.texture},px:{value:new THREE.Vector2(1/(W*SS),1/(H*SS))},expo:{value:1},vig:{value:.36},grain:{value:.006},glow:{value:+(Q.get('glow')||.03)},seed:{value:0}},
+ vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
+ fragmentShader:`precision highp float;
+#define SS ${SS}
+uniform sampler2D tD;uniform vec2 px;uniform float expo,vig,grain,glow,seed;varying vec2 vUv;
+// soft shoulder above 0.76, linear below, no toe: dark mat detail and brand colours pass unchanged
+vec3 curve(vec3 c){float p=max(c.r,max(c.g,c.b));const float s=.76;if(p<s)return c;float d=1.-s;float np=1.-d*d/(p+d-s);c*=np/p;float g=1.-1./(.15*(p-np)+1.);return mix(c,vec3(np),g);}
+float hash(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}
+void main(){vec3 c=vec3(0.);
+ for(int j=0;j<SS;j++)for(int i=0;i<SS;i++)c+=textureLod(tD,vUv+(vec2(float(i),float(j))-.5*float(SS-1))*px,0.).rgb;
+ c/=float(SS*SS);
+ // veiling glare: a wide, faint glow around the bright objects, from the low mip levels of the frame
+ c+=glow*(.3*textureLod(tD,vUv,4.5).rgb+.35*textureLod(tD,vUv,5.5).rgb+.35*textureLod(tD,vUv,6.7).rgb);
+ vec2 q=(vUv-.5)*vec2(.5625,1.)*2.;float rr=length(q);c*=1.-vig*smoothstep(.45,1.25,rr);
+ c=curve(max(c,0.)*expo);
+ c=mix(c*12.92,1.055*pow(c,vec3(1./2.4))-.055,step(.0031308,c));
+ float n=hash(gl_FragCoord.xy+seed*17.)+hash(gl_FragCoord.yx+seed*29.+7.)-1.;
+ gl_FragColor=vec4(c+n*grain,1.);}`});
+const postScene=new THREE.Scene(),postCam=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+{const q=new THREE.Mesh(new THREE.PlaneGeometry(2,2),post);q.frustumCulled=false;postScene.add(q)}
+
+// ---------- textures made by tools/gen_textures.py
+const TL=new THREE.TextureLoader();
+const [tMatA,tMatN,tMatR,tPapA,tPapN,tWear]=await Promise.all(['mat_albedo.jpg','mat_normal.png','mat_rough.png','paper_albedo.jpg','paper_normal.png','mat_wear.png'].map(f=>TL.loadAsync('textures/'+f)));
+for(const t of [tMatA,tMatN,tMatR,tPapN]){t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=ANISO}
+tMatA.colorSpace=THREE.SRGBColorSpace; tWear.colorSpace=THREE.SRGBColorSpace; tWear.anisotropy=ANISO;
+
+// ---------- scene, image-based light (a small studio: dark room, one large soft box on the key side, a cool fill, a dim strip overhead)
+const s=new THREE.Scene(); s.background=new THREE.Color(0x050608);
+{const e=new THREE.Scene();
+ e.add(new THREE.Mesh(new THREE.BoxGeometry(60,30,60),new THREE.MeshBasicMaterial({color:new THREE.Color(.035,.038,.045),side:THREE.BackSide})));
+ const panel=(w,h,p,col,tex)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:col,map:tex||null,side:THREE.DoubleSide}));m.position.set(...p);m.lookAt(0,0,0);e.add(m)};
+ const grad=(()=>{const c=document.createElement('canvas');c.width=8;c.height=128;const g=c.getContext('2d'),l=g.createLinearGradient(0,0,0,128);l.addColorStop(0,'#000');l.addColorStop(.4,'#fff');l.addColorStop(1,'#fff');g.fillStyle=l;g.fillRect(0,0,8,128);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t})();
+ panel(20,13,[-13,13,-10],new THREE.Color(5.2,4.9,4.5));       // key soft box, upper left, behind the desk
+ panel(12,16,[20,7,4],new THREE.Color(.5,.6,.85));              // cool fill on the right
+ {const g=new THREE.Group();g.position.set(-.6,14.5,-2.1);g.rotation.y=.42;const m=new THREE.Mesh(new THREE.PlaneGeometry(16,8),new THREE.MeshBasicMaterial({color:new THREE.Color(1.5,1.56,1.7).multiplyScalar(+(Q.get('glare')||1.8)),map:grad,side:THREE.DoubleSide}));
+  m.rotation.x=Math.PI/2;m.position.z=-4;g.add(m);e.add(g)}  // overhead panel with a soft near edge: the slanted glare on the phone glass
+ const pm=new THREE.PMREMGenerator(r); s.environment=pm.fromScene(e,0.02).texture; s.environmentIntensity=1;}
+const cam=new THREE.PerspectiveCamera(20,W/H,6,40);
+const TILT=8*Math.PI/180, D0=18.3;
+function setCam(dist,tx,tz){cam.position.set(tx,Math.cos(TILT)*dist,tz+Math.sin(TILT)*dist);cam.lookAt(tx,0,tz);cam.updateMatrixWorld(true)}
+setCam(D0,0,0);
+// G(px,py,h): the point of the plane y = h under frame pixel (px,py) with the base camera; the layout below is written in frame pixels
+function G(px,py,h=0){const v=new THREE.Vector3(px/W*2-1,1-py/H*2,.5).unproject(cam).sub(cam.position).normalize(),k=(h-cam.position.y)/v.y;return new THREE.Vector3(cam.position.x+v.x*k,h,cam.position.z+v.z*k)}
+s.add(new THREE.HemisphereLight(0xdfe6ff,0x0c0d10,.22));
+const key=new THREE.SpotLight(0xfff5e8,3.6,0,.27,1,0); key.position.set(-6.2,13,-7.6); key.target.position.set(-.15,0,-.45); s.add(key,key.target);
+key.castShadow=true; key.shadow.mapSize.set(4096,4096); key.shadow.camera.near=9; key.shadow.camera.far=24; key.shadow.radius=2.5; key.shadow.bias=-.00012; key.shadow.normalBias=.003;
+// horizontal shadow travel per unit of height (used by the contact shadows)
+const LDIR=(()=>{const d=key.target.position.clone().sub(key.position);return [-d.x/d.y,-d.z/d.y]})();
+
+// ---------- helpers: canvases, printed sheets, thin cards, contact shadows
+const rr=(g,x,y,w,h,rad)=>{g.beginPath();g.roundRect(x,y,w,h,rad)};
+function txt(g,t,x,y,font,color,align='left',ls='0px'){g.font=font;g.letterSpacing=ls;g.fillStyle=color;g.textAlign=align;g.textBaseline='middle';g.fillText(t,x,y);
+ const m=g.measureText(t),x0=x-m.actualBoundingBoxLeft,x1=x+m.actualBoundingBoxRight,y0=y-m.actualBoundingBoxAscent,y1=y+m.actualBoundingBoxDescent,Tm=g.getTransform();
+ const P=[[x0,y0],[x1,y0],[x1,y1],[x0,y1]].map(([a,b])=>[Tm.a*a+Tm.c*b+Tm.e,Tm.b*a+Tm.d*b+Tm.f]);
+ g.canvas.__boxes.push([Math.min(...P.map(p=>p[0])),Math.min(...P.map(p=>p[1])),Math.max(...P.map(p=>p[0])),Math.max(...P.map(p=>p[1])),t]);g.letterSpacing='0px';return m.width}
+const texOf=c=>{const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=ANISO;return t};
+// printed canvases are drawn on the CPU (willReadFrequently): a GPU canvas draws glyph edges that differ by a level or two with the frames drawn before
+const C2D={willReadFrequently:true};
+function canvasTex(w,h,draw){const c=document.createElement('canvas');c.width=w;c.height=h;c.__boxes=[];draw(c.getContext('2d',C2D),w,h);return texOf(c)}
+// a canvas redrawn only when its key changes (phone screen, chart, timer); save and restore keep each redraw free of the state of the one before
+function dyn(w,h,draw){const c=document.createElement('canvas');c.width=w;c.height=h;c.__boxes=[];const g=c.getContext('2d',C2D),t=texOf(c);let key=null;
+ return {t,c,upd(k,...a){if(k===key)return;key=k;c.__boxes=[];g.save();g.clearRect(0,0,w,h);draw(g,w,h,...a);g.restore();t.needsUpdate=true}}}
+// paper ground: a colour multiplied by the fibre map
+const papPat=(g,k)=>{const p=g.createPattern(tPapA.image,'repeat');p.setTransform(new DOMMatrix().scale(k));return p};
+function paper(g,w,h,color,k=1){g.fillStyle=color;g.fillRect(0,0,w,h);g.save();g.globalCompositeOperation='multiply';g.fillStyle=papPat(g,k);g.fillRect(0,0,w,h);g.restore()}
+const PAPT=.85; // world size of one paper map tile
+const papN=(w,d,ru=1,rv=1)=>{const n=tPapN.clone();n.repeat.set(w/PAPT/ru,d/PAPT/rv);n.needsUpdate=true;return n};
+const papMat=(tex,w,d,o={},ru=1,rv=1)=>new THREE.MeshStandardMaterial({map:tex,roughness:.9,normalMap:papN(w,d,ru,rv),normalScale:new THREE.Vector2(.55,.55),shadowSide:THREE.DoubleSide,...o});
+const plain=(color,o={})=>new THREE.MeshStandardMaterial({color,roughness:.88,...o});
+// sheet: a printed rectangle lying in XZ, +y up, canvas top at -z. region = part of the canvas it shows [u0,v0,u1,v1] (v from the canvas top).
+// userData.tm lets TEXTRECTS project the text boxes of the canvas through the real surface.
+function sheet(tex,w,d,{region=[0,0,1,1],seg=[1,1],disp=null,parent=s,mat=null,cast=false}={}){
+ const g=new THREE.PlaneGeometry(w,d,seg[0],seg[1]);g.rotateX(-Math.PI/2);const P=g.attributes.position,UV=g.attributes.uv,S=[],[u0,v0,u1,v1]=region;
+ for(let i=0;i<P.count;i++){const sx=P.getX(i)/w+.5,tz=P.getZ(i)/d+.5;S.push([sx,tz]);UV.setXY(i,u0+(u1-u0)*sx,1-(v0+(v1-v0)*tz))}
+ const m=new THREE.Mesh(g,mat||papMat(tex,w,d,{},u1-u0,v1-v0));m.receiveShadow=true;m.castShadow=cast;
+ m.userData.tm={c:tex.image,region,fn:disp||(()=>0),surf(sx,tz){return [(sx-.5)*w,this.fn(sx,tz),(tz-.5)*d]}};
+ m.userData.bend=fn=>{m.userData.tm.fn=fn;for(let i=0;i<P.count;i++)P.setY(i,fn(S[i][0],S[i][1]));P.needsUpdate=true;g.computeVertexNormals()};
+ if(disp)m.userData.bend(disp);parent.add(m);return m}
+function rrShape(w,h,rad){const p=new THREE.Shape(),x=-w/2,y=-h/2;p.moveTo(x+rad,y);p.lineTo(x+w-rad,y);p.absarc(x+w-rad,y+rad,rad,-Math.PI/2,0,false);p.lineTo(x+w,y+h-rad);p.absarc(x+w-rad,y+h-rad,rad,0,Math.PI/2,false);p.lineTo(x+rad,y+h);p.absarc(x+rad,y+h-rad,rad,Math.PI/2,Math.PI,false);p.lineTo(x,y+rad);p.absarc(x+rad,y+rad,rad,Math.PI,Math.PI*1.5,false);return p}
+// a flat printed face cut to a shape (bounding box w x d), lying in XZ
+function face(shape,w,d,tex,mat){const g=new THREE.ShapeGeometry(shape,32),P=g.attributes.position,UV=g.attributes.uv;for(let i=0;i<P.count;i++)UV.setXY(i,P.getX(i)/w+.5,P.getY(i)/d+.5);g.rotateX(-Math.PI/2);
+ const m=new THREE.Mesh(g,mat||papMat(tex,w,d));m.receiveShadow=true;m.userData.tm={c:tex.image,region:[0,0,1,1],surf:(sx,tz)=>[(sx-.5)*w,0,(tz-.5)*d]};return m}
+// a thin card: an extruded shape (its thickness shows a lit edge) with a printed face on top; origin at the centre of its base
+function card(shape,w,d,th,tex,{side='#d9dce2',under=null,parent=s,rough=.9,nrm=.55}={}){const G=new THREE.Group();
+ const g=new THREE.ExtrudeGeometry(shape,{depth:th,bevelEnabled:false,curveSegments:32});g.rotateX(-Math.PI/2);
+ const b=new THREE.Mesh(g,[plain(under||side,{roughness:rough}),plain(side,{roughness:rough})]);b.castShadow=true;b.receiveShadow=true;G.add(b);
+ const f=face(shape,w,d,tex,papMat(tex,w,d,{roughness:rough,normalScale:new THREE.Vector2(nrm,nrm)}));f.position.y=th+.0006;G.add(f);G.userData.face=f;parent.add(G);return G}
+// contact shadow: a soft dark sprite on the surface under an object. It follows the anchor: as the anchor rises, the sprite slides away from the light, widens and fades.
+const SHD=[];
+function contact(anchor,w,d,rad,{y=.0016,th=.01,blur=[.11,.022],alpha=[.42,.7],grow=0,yawOf=null}={}){
+ const pad=blur[0]*2.6+.06,K=220,cw=Math.ceil((w+2*pad)*K),chh=Math.ceil((d+2*pad)*K);
+ const c=document.createElement('canvas');c.width=cw;c.height=chh;const g=c.getContext('2d');
+ [0,1].forEach(i=>{g.filter='blur('+(blur[i]*K).toFixed(1)+'px)';g.fillStyle='rgba(0,0,0,'+alpha[i]+')';const e=i?-.004:grow;rr(g,pad*K-e*K,pad*K-e*K,(w+2*e)*K,(d+2*e)*K,Math.max(.001,rad+e)*K);g.fill()});
+ const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;const geo=new THREE.PlaneGeometry(w+2*pad,d+2*pad);geo.rotateX(-Math.PI/2);
+ const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,toneMapped:false}));m.renderOrder=1;s.add(m);
+ const cast=[];anchor.traverse(o=>{if(o.isMesh&&o.castShadow)cast.push(o)});SHD.push({m,anchor,y,th,rest:null,yawOf:yawOf||anchor,cast});return m}
+const _v=new THREE.Vector3(),_q=new THREE.Quaternion(),_e=new THREE.Euler(),_sc=new THREE.Vector3();
+function updateShadows(){for(const o of SHD){const a=o.anchor;let vis=true;for(let e=a;e;e=e.parent)if(!e.visible){vis=false;break}
+  a.getWorldPosition(_v);if(o.rest===null)o.rest=a.userData.rest??_v.y;const h=Math.max(0,_v.y-o.rest);a.getWorldScale(_sc);
+  for(const c of o.cast)c.castShadow=h<.1;o.yawOf.getWorldQuaternion(_q);_e.setFromQuaternion(_q,'YXZ');
+  o.m.visible=vis&&_sc.x>.02;o.m.position.set(_v.x+LDIR[0]*(h+o.th*.5),o.y,_v.z+LDIR[1]*(h+o.th*.5));o.m.rotation.y=_e.y;o.m.scale.setScalar(_sc.x*(1+h*.3));o.m.material.opacity=(a.userData.shOp??1)/Math.pow(1+h*2.4,2)}}
+
+// ---------- mat: black leather with a stitched seam, a faint wear layer; a dark desk under it
+const C0=G(540,960),MW=3.84,MD=6.74,MTILE=2.3;
+{const desk=new THREE.Mesh(new THREE.PlaneGeometry(30,30),plain('#0b0a09',{roughness:.7}));desk.rotation.x=-Math.PI/2;desk.position.set(C0.x,-.02,C0.z);s.add(desk);
+ for(const t of [tMatA,tMatN,tMatR])t.repeat.set(MW/MTILE,MD/MTILE);
+ const g=new THREE.ShapeGeometry(rrShape(MW,MD,.22),24),P=g.attributes.position,UV=g.attributes.uv;for(let i=0;i<P.count;i++)UV.setXY(i,P.getX(i)/MW+.5,P.getY(i)/MD+.5);g.rotateX(-Math.PI/2);
+ const mat=new THREE.Mesh(g,new THREE.MeshPhysicalMaterial({color:Q.get('matc')||'#06070a',map:tMatA,normalMap:tMatN,normalScale:new THREE.Vector2(1,1),roughnessMap:tMatR,roughness:1,specularIntensity:+(Q.get('mats')||.13),specularColor:new THREE.Color(.82,.88,1),envMapIntensity:+(Q.get('mate')||.5)}));
+ mat.position.copy(C0);mat.receiveShadow=true;s.add(mat);
+ const wg=new THREE.PlaneGeometry(MW,MD);wg.rotateX(-Math.PI/2);const wear=new THREE.Mesh(wg,new THREE.MeshStandardMaterial({map:tWear,transparent:true,depthWrite:false,roughness:.85,opacity:+(Q.get('wear')||.16)}));wear.position.set(C0.x,.0008,C0.z);wear.receiveShadow=true;s.add(wear);
+ // seam: a pressed line and one capsule per stitch
+ const IN=.17,sw=MW-2*IN,sd=MD-2*IN,line=rrShape(sw+.03,sd+.03,.15);line.holes.push(rrShape(sw-.03,sd-.03,.13));
+ const lg=new THREE.ShapeGeometry(line,24);lg.rotateX(-Math.PI/2);const seam=new THREE.Mesh(lg,new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.5,depthWrite:false,toneMapped:false}));seam.position.set(C0.x,.0012,C0.z);s.add(seam);
+ const pts=rrShape(sw,sd,.14).getSpacedPoints(Math.round(2*(sw+sd)/.105)),cg=new THREE.CapsuleGeometry(.0125,.058,3,8);cg.rotateZ(Math.PI/2);
+ const st=new THREE.InstancedMesh(cg,plain(Q.get('stc')||'#3a3f4a',{roughness:.6}),pts.length-1),d=new THREE.Object3D();
+ for(let i=0;i<pts.length-1;i++){const a=pts[i],b=pts[i+1];d.position.set(C0.x+(a.x+b.x)/2,.006,C0.z-(a.y+b.y)/2);d.rotation.set(0,Math.atan2(b.y-a.y,b.x-a.x),0);d.updateMatrix();st.setMatrixAt(i,d.matrix)}
+ st.castShadow=true;st.receiveShadow=true;s.add(st)}
+
+// ---------- phone: metal frame, black glass, emissive display under the glass (black diffuse, the UI as emission, a glossy reflection of the room on top)
+const U=1/297.5;                       // world units per frame pixel on the mat
+const PW=1.5,PH=3.075,PT=.15,PR=.215,BEV=.017,BT=.03,BEZ=.03,DW=PW-2*(BEV+BEZ),DH=PH-2*(BEV+BEZ),DR=PR-BEV-BEZ;
+const ph=new THREE.Group();ph.position.copy(G(292,918));ph.rotation.y=.052;s.add(ph);
+{const g=new THREE.ExtrudeGeometry(rrShape(PW-2*BEV,PH-2*BEV,PR-BEV),{depth:PT-2*BT,bevelEnabled:true,bevelThickness:BT,bevelSize:BEV,bevelSegments:6,curveSegments:28});g.rotateX(-Math.PI/2);g.translate(0,BT,0);
+ const glass=new THREE.MeshStandardMaterial({color:0x030405,roughness:.07,metalness:0}),metal=new THREE.MeshStandardMaterial({color:0x8f9299,roughness:.34,metalness:1});
+ const b=new THREE.Mesh(g,[glass,metal]);b.castShadow=true;b.receiveShadow=true;ph.add(b);
+ const btn=(x,z,l)=>{const m=new THREE.Mesh(new THREE.CapsuleGeometry(.014,l,4,10),metal);m.rotation.x=Math.PI/2;m.position.set(x,PT*.5,z);m.castShadow=true;ph.add(m)};
+ btn(PW/2+.004,-.52,.3);btn(-PW/2-.004,-.72,.16);btn(-PW/2-.004,-.42,.16)}
+ph.userData.rest=0;contact(ph,PW,PH,PR,{th:PT,blur:[.2,.035],alpha:[.62,.9],grow:.03});
+const SCW=1160,SCH=Math.round(1160*DH/DW);
+function drawTV(g,x,y,w,h){
+ g.fillStyle='rgba(15,23,34,.13)';g.beginPath();g.ellipse(x+w/2,y+h+96,w*.44,18,0,0,7);g.fill();
+ g.fillStyle='#232d3b';g.fillRect(x+w/2-30,y+h-6,60,74);g.fillStyle='#161f2b';rr(g,x+w*.3,y+h+62,w*.4,20,10);g.fill();
+ g.fillStyle=TINTA;rr(g,x,y,w,h,20);g.fill();
+ g.save();rr(g,x+14,y+14,w-28,h-32,8);g.clip();
+ g.fillStyle=mixc(MARINHO,CLARO,.5);g.fillRect(x,y,w,h);
+ g.fillStyle=AMBAR[4];g.beginPath();g.arc(x+w*.7,y+h*.36,h*.13,0,7);g.fill();
+ g.fillStyle=mixc(MARINHO,CLARO,.22);g.beginPath();g.moveTo(x,y+h*.72);g.quadraticCurveTo(x+w*.3,y+h*.38,x+w*.58,y+h*.7);g.quadraticCurveTo(x+w*.8,y+h*.5,x+w,y+h*.64);g.lineTo(x+w,y+h);g.lineTo(x,y+h);g.fill();
+ g.fillStyle=MARINHO;g.beginPath();g.moveTo(x,y+h*.86);g.quadraticCurveTo(x+w*.42,y+h*.6,x+w*.74,y+h*.84);g.quadraticCurveTo(x+w*.9,y+h*.74,x+w,y+h*.8);g.lineTo(x+w,y+h);g.lineTo(x,y+h);g.fill();
+ g.fillStyle='rgba(255,255,255,.07)';g.beginPath();g.moveTo(x+w*.08,y);g.lineTo(x+w*.34,y);g.lineTo(x+w*.12,y+h);g.lineTo(x-w*.14,y+h);g.fill();
+ g.restore()}
+// store page; kb banner in, ku1 and ku2 the two underlines. The top bar carries no words: during the opening push it leaves the frame through the top band
+const scr=dyn(SCW,SCH,(g,w,h,kb,ku1,ku2)=>{
+ g.fillStyle=CLARO;g.fillRect(0,0,w,h);
+ g.fillStyle=MARINHO;g.fillRect(0,0,w,318);
+ g.fillStyle='#000';rr(g,w/2-170,44,340,98,49);g.fill();g.fillStyle='#0c1626';g.beginPath();g.arc(w/2+104,93,24,0,7);g.fill();g.fillStyle='#1b2c4a';g.beginPath();g.arc(w/2+104,93,11,0,7);g.fill();
+ g.fillStyle=CLARO;[0,1,2,3].forEach(i=>{rr(g,96+i*24,112-i*12-22,15,22+i*12,4);g.fill()});                     // signal
+ rr(g,w-196,70,84,44,12);g.lineWidth=5;g.strokeStyle=CLARO;g.stroke();rr(g,w-188,78,54,28,6);g.fill();rr(g,w-106,84,8,16,3);g.fill(); // battery
+ g.lineCap='round';g.lineWidth=11;g.strokeStyle=CLARO;[0,1,2].forEach(i=>{g.beginPath();g.moveTo(66,206+i*30);g.lineTo(138,206+i*30);g.stroke()});
+ g.fillStyle='rgba(242,244,247,.16)';rr(g,186,188,w-186-250,104,52);g.fill();g.lineWidth=9;g.beginPath();g.arc(248,236,19,0,7);g.stroke();g.beginPath();g.moveTo(263,251);g.lineTo(280,268);g.stroke();   // search field
+ g.lineWidth=10;g.lineJoin='round';g.beginPath();g.moveTo(w-196,200);g.lineTo(w-172,200);g.lineTo(w-152,262);g.lineTo(w-84,262);g.lineTo(w-70,216);g.lineTo(w-166,216);g.stroke();
+ g.beginPath();g.arc(w-146,288,9,0,7);g.arc(w-92,288,9,0,7);g.fill();
+ g.fillStyle='#e3e6ec';g.fillRect(0,318,w,950);
+ drawTV(g,160,500,840,500);
+ if(kb>0){g.save();g.beginPath();g.rect(0,318,w,150);g.clip();g.translate(0,-150*(1-kb));g.fillStyle=NOITE;g.fillRect(0,318,w,150);txt(g,'BLACK FRIDAY',70,397,'700 92px P',AMBAR[4],'left','7px');g.restore()}
+ txt(g,'Loja Online',70,1326,'700 84px P',MARINHO);txt(g,'Smart TV 4K',70,1426,'700 96px HG',TINTA);
+ const wd=txt(g,'de R$ 4.000',70,1566,'700 104px P',MUTEDL);g.fillStyle=MUTEDL;g.fillRect(60,1562,wd+20,9);
+ if(ku1>0){g.fillStyle=TIJOLO[3];rr(g,64,1628,(wd+12)*ku1,16,8);g.fill()}
+ g.fillStyle=AMBAR[4];rr(g,54,1690,1052,290,44);g.fill();
+ const w1=txt(g,'por',100,1846,'700 100px P',AMBAR[2]);txt(g,'R$ 2.000',100+w1+34,1838,'700 186px P',AMBAR[1]);
+ if(ku2>0){g.fillStyle=AMBAR[1];rr(g,100,1938,(1052-92)*ku2,16,8);g.fill()}
+ g.fillStyle=MARINHO;rr(g,54,2060,1052,230,56);g.fill();txt(g,'Comprar',w/2,2180,'700 104px P',CLARO,'center');
+ g.fillStyle='rgba(15,23,34,.35)';rr(g,w/2-190,h-64,380,18,9);g.fill()});
+scr.upd('0',0,0,0);
+const disp=face(rrShape(DW,DH,DR),DW,DH,scr.t,new THREE.MeshStandardMaterial({color:0x000000,emissive:0xffffff,emissiveMap:scr.t,emissiveIntensity:.93,roughness:.08,metalness:0}));disp.position.y=PT+.0006;ph.add(disp);
+const flashP=new THREE.Mesh(new THREE.PlaneGeometry(DW,DH),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0,depthWrite:false}));flashP.rotation.x=-Math.PI/2;flashP.position.y=PT+.02;flashP.visible=false;ph.add(flashP);
+// point of the phone glass under canvas pixel (cx,cy), in phone coordinates
+const onScr=(cx,cy)=>[(cx/SCW-.5)*DW,(cy/SCH-.5)*DH];
+// paper disc on the glass, beside the two prices: "−50%" face up, "0%" under it; it turns over on "zero"
+const DSR=.27,DST=.012,dsc=new THREE.Group();{const [x,z]=onScr(952,1462);dsc.position.set(x,PT+.001,z)}dsc.rotation.y=.2;ph.add(dsc);
+const dscF=new THREE.Group();dscF.position.y=DST/2;dsc.add(dscF);
+{const circ=new THREE.Shape();circ.absarc(0,0,DSR,0,Math.PI*2,false);
+ const mk=(label,fs,bg,ink,ring)=>canvasTex(420,420,(g,w,h)=>{paper(g,w,h,bg,.6);g.strokeStyle=ring;g.lineWidth=6;g.setLineDash([13,11]);g.beginPath();g.arc(w/2,h/2,180,0,7);g.stroke();txt(g,label,w/2,h/2+8,'700 '+fs+'px P',ink,'center')});
+ const body=new THREE.Mesh(new THREE.CylinderGeometry(DSR,DSR,DST,72),plain(TIJOLO[5]));body.castShadow=true;body.receiveShadow=true;dscF.add(body);
+ const t1=mk('−50%',132,TIJOLO[4],TIJOLO[1],TIJOLO[3]),f1=face(circ,DSR*2,DSR*2,t1);f1.position.y=DST/2+.0005;dscF.add(f1);
+ const under=new THREE.Group();under.rotation.x=Math.PI;dscF.add(under);
+ const t2=mk('0%',170,TIJOLO[3],TIJOLO[5],TIJOLO[4]),f2=face(circ,DSR*2,DSR*2,t2);f2.position.y=DST/2+.0005;under.add(f2)}
+dscF.userData.rest=PT+.001+DST/2;
+contact(dscF,DSR*2,DSR*2,DSR,{y:PT+.0012,th:DST,blur:[.05,.012],alpha:[.5,.6]});
+
+// ---------- price-history paper: folded in two; the lower half is a flap that opens toward the viewer
+const CW=1.62,CH=1.5,LW=482,LH=446,CK=3.75,ch=new THREE.Group();ch.userData.home=G(798,700);ch.userData.ry=-.038;s.add(ch);
+const DOTX=[82,194,306,418],LINEY=318,DASHY=156;
+const chart=dyn(Math.round(LW*CK),Math.round(LH*CK),(g,w,h,kl)=>{paper(g,w,h,'#f4f2ec',1.4);g.scale(CK,CK);
+ g.fillStyle=MARINHO;[[30,44,9,18],[43,34,9,28],[56,26,9,36]].forEach(([x,y,a,b])=>{rr(g,x,y,a,b,2);g.fill()});
+ txt(g,'Histórico de preço',78,47,'700 36px P',MARINHO);
+ g.strokeStyle='rgba(15,23,34,.10)';g.lineWidth=2;[DASHY,237,LINEY].forEach(y=>{g.beginPath();g.moveTo(34,y);g.lineTo(452,y);g.stroke()});
+ g.strokeStyle=TINTA;g.lineWidth=3;g.beginPath();g.moveTo(34,368);g.lineTo(452,368);g.stroke();
+ txt(g,'DE 4.000',36,100,'700 36px P',TIJOLO[3]);
+ g.strokeStyle=TIJOLO[3];g.lineWidth=6;g.setLineDash([17,12]);g.beginPath();g.moveTo(36,DASHY);g.lineTo(392,DASHY);g.stroke();g.setLineDash([]);
+ g.fillStyle=TIJOLO[3];g.beginPath();g.arc(424,DASHY,25,0,7);g.fill();txt(g,'?',424,DASHY+3,'700 36px P',CLARO,'center');
+ ['AGO','SET','OUT','NOV'].forEach((m,i)=>txt(g,m,DOTX[i],403,'700 34px P',MUTEDL,'center'));
+ // the line of the real price is drawn from August to November on "dois mil desde agosto"
+ if(kl>0){const x1=DOTX[0]+(DOTX[3]-DOTX[0])*kl;g.strokeStyle=MARINHO;g.lineWidth=9;g.lineCap='round';g.beginPath();g.moveTo(DOTX[0],LINEY);g.lineTo(x1,LINEY);g.stroke();
+  DOTX.forEach(x=>{if(x<=x1+1){g.fillStyle='#fff';g.beginPath();g.arc(x,LINEY,13,0,7);g.fill();g.strokeStyle=MARINHO;g.lineWidth=8;g.stroke()}});
+  txt(g,'2.000',36,264,'700 44px P',TINTA)}
+ // fold shade
+ const sh=g.createLinearGradient(0,LH/2-10,0,LH/2+10);sh.addColorStop(0,'rgba(15,23,34,0)');sh.addColorStop(.5,'rgba(15,23,34,.13)');sh.addColorStop(1,'rgba(15,23,34,0)');g.fillStyle=sh;g.fillRect(0,LH/2-10,LW,20)});
+chart.upd('0',0);
+const cover=canvasTex(Math.round(LW*CK),Math.round(LH/2*CK),(g,w,h)=>{paper(g,w,h,'#f1efe8',1.4);g.scale(CK,CK);
+ g.fillStyle=MARINHO;[[34,74,13,26],[53,60,13,40],[72,48,13,52]].forEach(([x,y,a,b])=>{rr(g,x,y,a,b,3);g.fill()});
+ txt(g,'Histórico',36,136,'700 46px P',MARINHO);txt(g,'de preço',36,184,'700 46px P',MARINHO);
+ g.fillStyle=TIJOLO[4];g.beginPath();g.arc(386,112,58,0,7);g.fill();txt(g,'?',386,118,'700 84px P',TIJOLO[1],'center')});
+const chTop=sheet(chart.t,CW,CH/2,{region:[0,0,1,.5],parent:ch,cast:true});chTop.position.set(0,.003,-CH/4);
+const flap=new THREE.Group();flap.position.y=.004;ch.add(flap);
+const curl=k=>(sx,tz)=>k*.055*Math.pow(Math.max(0,sx+tz-1.42)/.58,2);   // the free right corner lifts a little
+const chBot=sheet(chart.t,CW,CH/2,{region:[0,.5,1,1],seg:[20,10],parent:flap,cast:true});chBot.position.set(0,0,CH/4);
+const flapUnder=new THREE.Group();flapUnder.rotation.x=Math.PI;flap.add(flapUnder);
+const chCov=sheet(cover,CW,CH/2,{seg:[20,10],parent:flapUnder,cast:false});chCov.position.set(0,.0012,-CH/4);
+const flapMid=new THREE.Object3D();flapMid.position.set(0,0,CH/4);flap.add(flapMid);flapMid.userData.rest=.004;
+chTop.userData.rest=.003;contact(chTop,CW,CH/2,.012,{th:.004,blur:[.07,.014],alpha:[.4,.55],yawOf:ch});
+contact(flapMid,CW,CH/2,.012,{th:.02,blur:[.08,.016],alpha:[.42,.55],yawOf:ch});
+const flashC=new THREE.Mesh(new THREE.PlaneGeometry(CW,CH),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0,depthWrite:false}));flashC.rotation.x=-Math.PI/2;flashC.position.y=.06;flashC.visible=false;ch.add(flashC);
+const onCh=(lx,ly)=>[(lx/LW-.5)*CW,(ly/LH-.5)*CH];   // chart logical pixel to chart coordinates
+// strip "ENGANOSA", laid over the dashed line
+const STW=1.42,STD=.3,strip=card(rrShape(STW,STD,.02),STW,STD,.01,canvasTex(1278,270,(g,w,h)=>{paper(g,w,h,TIJOLO[4],1);txt(g,'ENGANOSA',w/2+4,h/2+8,'700 178px P',TIJOLO[1],'center','8px')}),{side:TIJOLO[5],parent:ch});
+strip.userData.home=onCh(238,166);strip.userData.rest=.006;contact(strip,STW,STD,.02,{y:.0052,th:.01,blur:[.05,.012],alpha:[.4,.6]});
+// magnifier-shaped card (Marinho): a ring and a handle
+const lens=new THREE.Group();ch.add(lens);
+{const ring=new THREE.Shape();ring.absarc(0,0,.2,0,Math.PI*2,false);const hole=new THREE.Path();hole.absarc(0,0,.145,0,Math.PI*2,true);ring.holes.push(hole);
+ const rg=new THREE.ExtrudeGeometry(ring,{depth:.014,bevelEnabled:false,curveSegments:48});rg.rotateX(-Math.PI/2);
+ const m=[plain(MARINHO,{normalMap:papN(.4,.4),normalScale:new THREE.Vector2(.5,.5)}),plain('#2c4f84')];
+ const a=new THREE.Mesh(rg,m);a.castShadow=true;a.receiveShadow=true;lens.add(a);
+ const hg=new THREE.ExtrudeGeometry(rrShape(.27,.085,.035),{depth:.014,bevelEnabled:false,curveSegments:12});hg.rotateX(-Math.PI/2);
+ const b=new THREE.Mesh(hg,m);b.position.set(.225,0,.225);b.rotation.y=-Math.PI/4;b.castShadow=true;b.receiveShadow=true;lens.add(b)}
+// (the magnifier lies on the sloping flap: its shadow comes from the shadow map)
+
+// ---------- wish note "TV" with a hand-drawn star; it slides out from under the phone
+const NW=.6,note=new THREE.Group();note.userData.home=G(606,1044);s.add(note);
+{const t=canvasTex(540,540,(g,w,h)=>{paper(g,w,h,AMBAR[5],.9);g.fillStyle='rgba(154,97,16,.10)';g.fillRect(0,0,w,70);
+  txt(g,'TV',96,330,'italic 400 230px NR',TINTA);
+  g.strokeStyle=AMBAR[3];g.lineWidth=13;g.lineJoin='round';g.lineCap='round';g.beginPath();
+  for(let i=0;i<=5;i++){const a=-Math.PI/2+i*Math.PI*4/5+.08,x=424+Math.cos(a)*(66+(i%2)*5),y=150+Math.sin(a)*(66-(i%3)*4);i?g.lineTo(x,y):g.moveTo(x,y)}g.stroke()});
+ const m=sheet(t,NW,NW,{seg:[12,12],parent:note,cast:true,disp:(sx,tz)=>.003+.05*Math.pow(Math.max(0,sx+tz-1.3)/.7,2)});note.userData.sheet=m}
+note.userData.rest=0;contact(note,NW,NW,.01,{th:.006,blur:[.06,.013],alpha:[.4,.5]});
+// ---------- timer card "00:09:59"; it counts down, stops on "proíbe", turns face down and leaves
+const TMW=1.0,TMD=.4,tmr=new THREE.Group();tmr.userData.home=G(700,1264);s.add(tmr);
+const tmrF=new THREE.Group();tmr.add(tmrF);
+const tmTex=dyn(900,360,(g,w,h,str)=>{paper(g,w,h,TIJOLO[5],1);g.strokeStyle=TIJOLO[4];g.lineWidth=8;rr(g,16,16,w-32,h-32,30);g.stroke();
+ const fs=168,cw=[...str].map(c=>c===':'?fs*.36:fs*.66),tot=cw.reduce((a,b)=>a+b,0);let x=(w-tot)/2;[...str].forEach((c,i)=>{txt(g,c,x+cw[i]/2,h/2+10,'700 '+fs+'px P',TIJOLO[2],'center');x+=cw[i]})});
+tmTex.upd('00:09:59','00:09:59');
+{const c=card(rrShape(TMW,TMD,.05),TMW,TMD,.012,tmTex.t,{side:TIJOLO[5],parent:tmrF});c.position.y=-.006}
+tmrF.userData.rest=.008;contact(tmrF,TMW,TMD,.05,{th:.012,blur:[.06,.013],alpha:[.42,.6],yawOf:tmr});
+// ---------- two prints (the ad and the history) and the PROCON envelope
+const PRW=.5,PRD=.58;
+function mkPrint(draw,home,ry){const t=canvasTex(450,522,(g,w,h)=>{paper(g,w,h,'#fbfbf9',.8);g.save();rr(g,30,30,w-60,h-60,8);g.clip();draw(g,w,h);g.restore()});
+ const c=card(rrShape(PRW,PRD,.012),PRW,PRD,.006,t,{side:'#eceef2',rough:.55});c.userData.home=home;c.userData.ry=ry;c.userData.rest=.0045;c.visible=false;contact(c,PRW,PRD,.012,{th:.006,blur:[.05,.012],alpha:[.4,.55]});return c}
+const prA=mkPrint((g,w,h)=>{g.fillStyle='#e3e6ec';g.fillRect(0,0,w,h);g.fillStyle=MARINHO;g.fillRect(0,0,w,104);g.fillStyle=TINTA;rr(g,96,150,258,160,10);g.fill();g.fillStyle=mixc(MARINHO,CLARO,.5);g.fillRect(108,162,234,130);g.fillStyle=TINTA;g.fillRect(205,310,40,26);
+ g.fillStyle=CLARO;g.fillRect(30,356,w-60,h);g.fillStyle=AMBAR[4];rr(g,62,386,230,74,16);g.fill();g.fillStyle=TIJOLO[4];g.beginPath();g.arc(352,422,44,0,7);g.fill()},G(728,1056),-.11);
+const prB=mkPrint((g,w,h)=>{paper(g,w,h,'#f4f2ec',.8);g.fillStyle=MARINHO;rr(g,62,70,190,26,8);g.fill();g.strokeStyle=TIJOLO[3];g.lineWidth=12;g.setLineDash([26,18]);g.beginPath();g.moveTo(62,190);g.lineTo(388,190);g.stroke();g.setLineDash([]);
+ g.strokeStyle=MARINHO;g.lineWidth=14;g.beginPath();g.moveTo(74,350);g.lineTo(376,350);g.stroke();[74,175,276,376].forEach(x=>{g.fillStyle='#fff';g.beginPath();g.arc(x,350,19,0,7);g.fill();g.strokeStyle=MARINHO;g.lineWidth=11;g.stroke()});
+ g.strokeStyle=TINTA;g.lineWidth=6;g.beginPath();g.moveTo(52,430);g.lineTo(398,430);g.stroke()},G(800,1074),.09);
+const EW=.98,ED=.64,ETH=.02,EFL=.36,env=new THREE.Group();env.userData.home=G(716,1302);env.rotation.y=.03;s.add(env);
+{const t=canvasTex(882,576,(g,w,h)=>{paper(g,w,h,'#eef0f3',1);g.strokeStyle='rgba(15,23,34,.16)';g.lineWidth=5;g.lineJoin='round';g.beginPath();g.moveTo(4,h-4);g.lineTo(w/2,h*.46);g.lineTo(w-4,h-4);g.stroke();
+  g.strokeStyle='rgba(15,23,34,.10)';g.beginPath();g.moveTo(4,4);g.lineTo(w/2,h*.5);g.lineTo(w-4,4);g.stroke();
+  txt(g,'PROCON',w/2+5,h*.775,'700 132px P',MARINHO,'center','10px')});
+ const c=card(rrShape(EW,ED,.02),EW,ED,ETH,t,{side:'#dfe2e7',parent:env,nrm:.2});env.userData.body=c;
+ const tri=new THREE.Shape();tri.moveTo(-EW/2+.01,0);tri.lineTo(EW/2-.01,0);tri.lineTo(.07,EFL-.03);tri.quadraticCurveTo(0,EFL,-.07,EFL-.03);tri.closePath();
+ const fg=new THREE.ShapeGeometry(tri,12);fg.rotateX(-Math.PI/2);  // at angle 0 the flap lies flat beyond the far edge; it stands half open until the prints are in
+ const fm=new THREE.Mesh(fg,new THREE.MeshStandardMaterial({color:'#e6e9ee',roughness:.9,side:THREE.DoubleSide,shadowSide:THREE.DoubleSide,normalMap:papN(EW,EFL),normalScale:new THREE.Vector2(.5,.5)}));fm.castShadow=true;fm.receiveShadow=false;
+ const hinge=new THREE.Group();hinge.position.set(0,ETH+.001,-ED/2+.004);hinge.add(fm);env.add(hinge);env.userData.hinge=hinge}
+env.userData.rest=0;contact(env,EW,ED,.02,{th:ETH,blur:[.07,.015],alpha:[.45,.62]});
+// ---------- paper plane (the send-ask)
+const plane=new THREE.Group();s.add(plane);
+{const L=.62,Wg=.29,v=[[0,0,-L/2],[-Wg,.1,L/2],[0,0,L/2],[Wg,.1,L/2],[0,-.11,L/2]],tri=[[0,2,1],[0,3,2],[0,4,2],[0,2,4]],p=[];tri.forEach(t=>t.forEach(i=>p.push(...v[i])));
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(p,3));g.computeVertexNormals();
+ const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:'#f4f5f7',roughness:.85,side:THREE.DoubleSide,shadowSide:THREE.DoubleSide,flatShading:true}));plane.add(m);plane.userData.rest=0}
+contact(plane,.5,.6,.2,{th:0,blur:[.09,.03],alpha:[.5,.4]});plane.visible=false;
+const FLY_A=G(300,820),FLY_B=G(1240,470);   // flight path ends, fixed with the base camera (G must not be called inside setT)
+
+// ---------- timing
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),sm=x=>{x=clamp(x);return x*x*(3-2*x)},eo=x=>1-Math.pow(1-clamp(x),3),ei=x=>Math.pow(clamp(x),3),lerp=(a,b,k)=>a+(b-a)*k,
+ back=x=>{x=clamp(x);const c=1.6;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)},hill=x=>Math.sin(clamp(x)*Math.PI);
+const SEG=CUES.segments,seg=id=>SEG.find(g=>g.id===id),norm=w=>w.toLowerCase().replace(/[^\p{L}\p{N}_]/gu,'');
+// time of the first word of segment id that starts with the word stored under key k in its "fx" map (src/beats.json)
+const fx=(id,k)=>{const g=seg(id),n=norm((g.fx||{})[k]||''),w=n&&g.words.find(w=>norm(w[2]).startsWith(n));return (w||g.words[g.words.length>>1])[0]};
+const END=CUES.end_t,
+ tPush=fx('p0','push'),tOut=fx('p0','out')-.12,tNope=fx('p0','nope'),
+ tBanner=fx('p0','banner'),tNote=fx('p1','note'),tU1=fx('p1','under1'),tU2=fx('p1','under2'),
+ tOpen=fx('p2','open'),tLine=fx('p2','line'),tFlip=fx('p2','flip'),tTimer=fx('p2','timer'),
+ tAsk=fx('p3','ask'),tCard3=fx('p3','card'),tStrip=fx('p3','strip'),tStop=fx('p3','stop'),
+ tLens=fx('p4','lens'),tScan=fx('p4','scan'),tShot1=fx('p4','shot1'),tShot2=fx('p4','shot2'),tEnv=fx('p4','env'),tTuck=fx('p4','tuck'),
+ tPlane=fx('p5','plane');
+const T_DISC=.3,T_IN=tOut+.6,T_LAND=T_IN+.6,T_TMR=tTimer+.3,T_STRIP=tStrip+.14,T_FLY=tPlane-.05,T_NOTE_OUT=seg('p2').t0+.05;
+// fall from height h0 during d seconds ending at t1, with one small settle
+const fall=(t,t1,d,h0)=>{if(t<t1){const k=clamp((t-(t1-d))/d);return h0*(1-k*k)}return .03*h0*hill((t-t1)/.16)};
+
+// ---------- camera: one framing, a slow push and small nudges toward the object of each beat
+const CS=[];const shot=(t,dx,dz,dist,tr=1.2)=>CS.push({t,dx,dz,dist,tr});
+shot(-1,0,0,1.012);shot(seg('p1').t0+.9,0,0,1,1.6);shot(tOpen+.7,.07,.02,.99,1.3);shot(tFlip+.2,-.04,.03,.992,1.2);shot(tStrip+.4,.07,.03,.985,1.2);
+shot(seg('p4').t0+1.2,.03,.03,.99,1.4);shot(tShot1+.4,0,.05,.996,1.2);shot(seg('p5').t0+1.2,0,.02,1.012,1.6);
+// opening move: a fast push (2x) onto the struck "de R$ 4.000" and the two prices that lands on "dobro" (third word of the hook); the camera pulls back on "Black".
+// PUSH_T is the mat point under the frame centre at the end of the push (fixed with the base camera).
+const PUSH_T=G(+(Q.get('ptx')||314),+(Q.get('pty')||1187)),PUSH_Z=+(Q.get('pz')||2),PUSH_D=.55,OUT_D=.65;
+const pushK=t=>eo((t-(tPush-PUSH_D))/PUSH_D)*(1-sm((t-tOut)/OUT_D));
+function camAt(t){let i=0;while(i<CS.length-1&&t>=CS[i+1].t-CS[i+1].tr)i++;const b=CS[i],a=CS[Math.max(0,i-1)],k=i?sm((t-(b.t-b.tr))/b.tr):1;
+ const kp=pushK(t),creep=1-.05*sm(t/Math.max(.05,tPush-PUSH_D))*(1-sm((t-tOut)/OUT_D)),hold=1-.03*clamp((t-tPush)/Math.max(.2,tOut-tPush)),q=1-.75*kp;
+ setCam(D0*lerp(a.dist,b.dist,k)*creep*Math.exp(-Math.log(PUSH_Z)*kp)*(kp>0?lerp(1,hold,kp):1),lerp(lerp(a.dx,b.dx,k)+Math.sin(t*.33)*.012*q,PUSH_T.x,kp),lerp(lerp(a.dz,b.dz,k)+Math.cos(t*.27)*.008*q,PUSH_T.z,kp))}
+
+// ---------- overlays
+const $=id=>document.getElementById(id);
+const mctx=document.createElement('canvas').getContext('2d'),mw=(t,px)=>{mctx.font='700 '+px+'px P';return mctx.measureText(t).width};
+const SR=SEG.map(g=>RAMP[g.ramp]||AMBAR);
+// caption phrases: up to three spoken words, the word being said is lit
+const PHR=[];SEG.forEach((g,si)=>{let cur=[];const flush=()=>{if(cur.length){PHR.push({w:cur,si});cur=[]}};
+ g.words.forEach((w,j)=>{const pair=/^black/i.test(w[2])&&g.words[j+1]&&/^friday/i.test(g.words[j+1][2]);if(cur.length&&(cur.length>=3||(pair&&cur.length>=2)||mw(cur.map(x=>x[2]).join(' ')+' '+w[2],86)>760))flush();cur.push(w);if(/[.,?!;:]$/.test(w[2]))flush()});flush()});
+PHR.forEach((p,i)=>{const e=p.w[p.w.length-1][1],n=PHR[i+1];p.t0=p.w[0][0]-.04;p.t1=n&&n.w[0][0]-.04-e<.45?n.w[0][0]-.04:e+.3;p.fs=Math.min(86,Math.floor(86*770/mw(p.w.map(x=>x[2]).join(' '),86)))});
+// story cards (src/beats.json "cards"): one line, the "hi" words in tone 4 of the beat's ramp
+const CARDS=[];SEG.forEach((g,si)=>(g.cards||[]).forEach((c,j)=>{const t=c.at?fx(g.id,c.at)-.06:(si?g.t0+.25:-1),i=c.hi?c.text.lastIndexOf(c.hi):-1,col=SR[si][4];
+ CARDS.push({t,col,fs:Math.min(92,Math.floor(92*950/mw(c.text,92))),html:i<0?c.text:c.text.slice(0,i)+'<b style="color:'+col+'">'+c.hi+'</b>'+c.text.slice(i+c.hi.length)})}));
+// progress bar: one cell per story beat (src/beats.json "bar"), each fills while its beat plays
+const BAR=(CUES.bar||SEG.map(g=>[g.id,null])).map(([id,k])=>({t:k?fx(id,k)-.06:seg(id).t0,R:RAMP[seg(id).ramp]||AMBAR}));BAR[0].t=0;
+$('bar').innerHTML=BAR.map(()=>'<i><b></b></i>').join('');const fills=[...document.querySelectorAll('#bar b')];
+const ENDF=[...document.querySelectorAll('#end .f')];
+const CITE=SEG.filter(g=>g.cite).map(g=>({text:g.cite,t0:g.id==='p3'?tCard3+.12:tEnv-.2,t1:g.id==='p3'?seg('p4').t0+.35:Math.min(END,seg('p5').t0+1.1)}));
+
+let NOW=0;
+window.setT=(t)=>{NOW=t;
+ // phone screen: banner on "Friday" of the hook (never before the camera is nearly back), underlines on "quatro" and "dois"
+ {const kb=Math.round(eo((t-Math.max(tBanner-.06,tOut+OUT_D*.85))/.4)*40)/40,k1=Math.round(sm((t-tU1+.05)/.35)*30)/30,k2=Math.round(sm((t-tU2+.05)/.35)*30)/30;scr.upd(kb+'|'+k1+'|'+k2,kb,k1,k2)}
+ {const f1=t>=tShot1?clamp(1-(t-tShot1)/.34):0;flashP.visible=f1>0;flashP.material.opacity=f1*.92;const f2=t>=tShot2?clamp(1-(t-tShot2)/.34):0;flashC.visible=f2>0;flashC.material.opacity=f2*.9}
+ // disc: drops onto the glass as the Reel starts, shakes "no" on "não", turns over on "zero"
+ {const kn=clamp((t-tNope+.05)/.55),a=hill(kn),kf=sm((t-tFlip+.06)/.5);dscF.rotation.x=Math.PI*kf;dscF.position.y=DST/2+fall(t,T_DISC,.5,.9)+.12*a+.42*Math.sin(kf*Math.PI);dsc.rotation.y=.2+.42*Math.sin(kn*Math.PI*4)*(1-kn)}
+ // folded paper: slides in as the camera comes back (from T_IN, at rest at T_LAND, before p1), lifts its flap once, opens on "histórico"; the line is drawn on "dois mil desde agosto"
+ {const hm=ch.userData.home,kL=eo((t-T_IN)/(T_LAND-T_IN));ch.visible=t>=T_IN;
+  ch.position.set(hm.x+(1-kL)*1.7,.14*Math.pow(1-kL,1.5),hm.z-(1-kL)*.5);ch.rotation.y=ch.userData.ry+(1-kL)*.62;
+  const ko=sm((t-tOpen+.12)/.85),pk=hill((t-T_LAND-.1)/.55)*.3,wob=t>tOpen+.73?.05*Math.sin((t-tOpen-.73)*11)*Math.exp(-(t-tOpen-.73)*5):0;
+  flap.rotation.x=lerp(-Math.PI+.012+pk,-.036,ko)+wob;flap.position.y=lerp(.0065,.004,ko);
+  const ck=Math.round(lerp(-1,1,ko)*20)/20;if(flap.userData.ck!==ck){flap.userData.ck=ck;chBot.userData.bend(curl(ck));chCov.userData.bend((sx,tz)=>-curl(ck)(sx,1-tz))}
+  chart.upd(String(Math.round(clamp((t-tLine+.05)/1.05)*60)),Math.round(clamp((t-tLine+.05)/1.05)*60)/60)}
+ // wish note: slides out from under the phone on "TV" and back under it when p2 starts
+ {const hm=note.userData.home,ko=sm((t-T_NOTE_OUT)/.55),k=eo((t-tNote+.12)/.6)*(1-ko);note.visible=k>0;note.position.set(hm.x-(1-k)*.66,0,hm.z+(1-k)*.05);note.rotation.y=-.07+(1-k)*.16}
+ // timer card: drops on "cronômetro", one tick per second, stops on "proíbe", turns face down and slides off the mat
+ {const hm=tmr.userData.home,vis=t>=T_TMR-.42,stop=tStop+.05,kf=sm((t-stop-.12)/.4),ks=ei((t-stop-.5)/.6);tmr.visible=vis&&ks<1;
+  tmr.position.set(hm.x+ks*3.4,0,hm.z+ks*.3);tmr.rotation.y=-.05+(t<T_TMR?(T_TMR-t)*.5:0)-ks*.5;
+  tmrF.position.y=.008+fall(t,T_TMR,.42,.7)+.36*Math.sin(kf*Math.PI);tmrF.rotation.x=Math.PI*kf;
+  const n=Math.max(0,Math.floor(Math.min(t,stop)-T_TMR)),sec=599-n,str='00:0'+Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');tmTex.upd(str,str)}
+ // strip "ENGANOSA": laid over the dashed line on "enganosa"
+ {const [x,z]=strip.userData.home,vis=t>=T_STRIP-.36,k=clamp((t-(T_STRIP-.36))/.36);strip.visible=vis;strip.position.set(x-(1-k)*.12,.006+fall(t,T_STRIP,.36,.55),z-(1-k)*.1);strip.rotation.y=.065+(1-k)*.3}
+ // magnifier card: comes to the November point on "comparador", scans back along the line on "antigo"
+ {const k=eo((t-tLens+.2)/.6),ks=sm((t-tScan+.1)/1.5),[x0,z0]=onCh(DOTX[3],LINEY),[x1]=onCh(DOTX[1],LINEY);lens.visible=k>0;
+  lens.position.set(lerp(x0,x1,ks)+(1-k)*1.5,.018+(1-k)*.25,z0+(1-k)*.25);lens.rotation.y=(1-k)*-.9+.08*Math.sin(ks*Math.PI*2)}
+ // envelope: slides out from under the phone on "denuncie"; on "Procon" the two prints go in and the flap closes
+ const kTuck=t=>sm((t-tTuck+.05)/.55);
+ {const hm=env.userData.home,k=eo((t-tEnv+.12)/.6);env.visible=k>0;env.position.set(hm.x-(1-k)*1.02,0,hm.z+(1-k)*.04);env.userData.hinge.rotation.x=lerp(1.78,Math.PI-.06,sm((t-tTuck-.5)/.45))}
+ // prints: each pops out of its source with the flash, flies to the stack, then slides into the envelope
+ [[prA,tShot1,ph.position,PT+.05,0],[prB,tShot2,ch.userData.home,.06,1]].forEach(([p,t0,src,y0,i])=>{const k=clamp((t-t0-.04)/.6),e=sm(k),hm=p.userData.home,kt=kTuck(t-i*.09),eh=env.userData.home;
+  p.visible=t>=t0+.04;const yb=.0045+i*.0062;
+  p.position.set(lerp(lerp(src.x,hm.x,e),eh.x+(i?.05:-.06),kt),lerp(y0,yb,e)+.55*hill(k),lerp(lerp(src.z,hm.z,e),eh.z+.015,kt));p.userData.shOp=1-kt;
+  p.rotation.y=lerp(p.userData.ry+(1-e)*.7,i?.02:-.03,kt);p.scale.setScalar(.35+.65*back(k/.8))});
+ // paper plane: leaves the phone on "Mande" and crosses to the edge of the frame
+ {const k=clamp((t-T_FLY)/1.5),e=k*k*(3-2*k)*.6+k*.4,a=FLY_A,b=FLY_B;plane.visible=k>0&&k<1;
+  const x=lerp(a.x,b.x,e)+Math.sin(e*Math.PI)*.1,z=lerp(a.z,b.z,e)+Math.sin(e*Math.PI)*.45,dx=(b.x-a.x)+Math.cos(e*Math.PI)*Math.PI*.1,dz=(b.z-a.z)+Math.cos(e*Math.PI)*Math.PI*.45;
+  plane.position.set(x,PT+.08+.8*Math.sin(Math.min(1,e*1.25)*Math.PI/2),z);plane.rotation.set(0,Math.atan2(-dx,-dz),0);plane.rotateZ(-.3*Math.cos(e*Math.PI));plane.rotateX(.18*(1-e));plane.scale.setScalar(.3+.7*eo(k/.22))}
+ camAt(t);updateShadows();
+ if(!window.NO_RENDER){post.uniforms.seed.value=Math.round(t*24)%977;r.setRenderTarget(RT);r.render(s,cam);r.setRenderTarget(null);r.render(postScene,postCam)}else s.updateMatrixWorld(true);
+ // ---------- overlays (moved by layout properties, not by CSS transforms: a transformed text layer is drawn from a cached raster that depends on earlier frames)
+ const ke=clamp((t-END)/.2),live=ke<1;
+ {let i=0;while(i<CARDS.length-1&&t>=CARDS[i+1].t)i++;const c=CARDS[i],n=CARDS[i+1],hd=$('hd'),tt=$('ttl');
+  if(hd.dataset.k!==String(i)){hd.dataset.k=String(i);tt.innerHTML=c.html;tt.style.fontSize=c.fs+'px';$('rule').style.background=c.col}
+  const k=eo((t-c.t)/.3)*clamp(((n?n.t:END)-t)/.14)*(1-clamp(pushK(t)/.06));hd.style.opacity=live?k:0;tt.style.top=((1-eo((t-c.t)/.3))*24)+'px';$('rule').style.width=(200*eo((t-c.t-.1)/.4))+'px'}
+ BAR.forEach((b,i)=>{const n=BAR[i+1]?BAR[i+1].t:END,k=clamp((t-b.t)/(n-b.t));fills[i].style.width=(100*k)+'%';fills[i].style.background=mixc(b.R[4],b.R[3],clamp((t-n)/.4))});
+ $('bar').style.opacity=live?clamp((t+.3)/.25):0;
+ {const c=live&&CITE.find(c=>t>=c.t0&&t<c.t1),ct=$('cite');if(c){const sp=$('citet'),sc=.6+.4*back((t-c.t0)/.3);sp.textContent=c.text;sp.style.fontSize=(42*sc)+'px';sp.style.top=((1-sc)*35)+'px';ct.style.opacity=clamp((c.t1-t)/.15)}else ct.style.opacity=0}
+ {const pi=live?PHR.findIndex(p=>t>=p.t0&&t<p.t1):-1,cap=$('cap'),pill=$('pill');
+  if(pi>=0){const p=PHR[pi];if(pill.dataset.k!==String(pi)){pill.innerHTML=p.w.map(w=>'<span>'+w[2]+'</span>').join(' ');pill.dataset.k=String(pi);pill.style.setProperty('--on',SR[p.si][4])}
+   let act=0;p.w.forEach((w,j)=>{if(t>=w[0]-.03)act=j});[...pill.children].forEach((sp,j)=>{sp.className=j===act?'on':(j<act?'past':'next')});
+   const sc=.9+.1*back((t-p.t0)/.18);pill.style.fontSize=(p.fs*sc)+'px';pill.style.top=((1-sc)*p.fs*.73)+'px';cap.style.opacity=1}else cap.style.opacity=0}
+ $('badge').style.opacity=live?.6:0;
+ const end=$('end');end.style.display=ke>0?'block':'none';end.style.opacity=ke;
+ ENDF.forEach(e=>{const k=eo((t-END-.1-(+e.dataset.d))/.5);e.style.opacity=k;e.style.marginTop=((1-k)*18)+'px'});
+ return true};
+
+// every text box of the current frame, in page pixels: [{src,text,x0,y0,x1,y1}]. DOM text lines, and text printed on 3D surfaces that face the camera
+// (projected through the real surface; a text hidden behind another object still counts).
+window.TEXTRECTS=()=>{const out=[],endOn=+$('end').style.opacity>=.99;
+ const shown=el=>{for(let e=el;e&&e!==document.body;e=e.parentElement){const cs=getComputedStyle(e);if(cs.display==='none'||+cs.opacity<.05)return false}return true};
+ for(const id of ['hd','cap','cite','end']){const el=$(id);if(id!=='end'&&endOn)continue;const tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n;
+  while((n=tw.nextNode())){if(!n.textContent.trim()||!shown(n.parentElement))continue;const rg=document.createRange();rg.selectNodeContents(n);for(const q of rg.getClientRects())if(q.width>1)out.push({src:id,text:n.textContent.trim().slice(0,40),x0:q.left,y0:q.top,x1:q.right,y1:q.bottom})}}
+ if(endOn)return out;
+ const v=new THREE.Vector3(),nrm=new THREE.Vector3(),ctr=new THREE.Vector3();
+ s.traverse(m=>{const tm=m.userData.tm;if(!m.isMesh||!tm||!tm.c.__boxes||!tm.c.__boxes.length)return;
+  for(let e=m;e;e=e.parent)if(!e.visible)return;
+  nrm.set(0,1,0).transformDirection(m.matrixWorld);m.getWorldPosition(ctr);if(nrm.dot(v.copy(cam.position).sub(ctr))<=0)return;
+  const c=tm.c,[u0,v0,u1,v1]=tm.region;
+  for(const b of c.__boxes){const mu=(b[0]+b[2])/2/c.width,mv=(b[1]+b[3])/2/c.height;if(mu<u0||mu>u1||mv<v0||mv>v1)continue;
+   let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+   for(const [px,py] of [[b[0],b[1]],[b[2],b[1]],[b[2],b[3]],[b[0],b[3]],[(b[0]+b[2])/2,(b[1]+b[3])/2]]){
+    const p=tm.surf(clamp((px/c.width-u0)/(u1-u0)),clamp((py/c.height-v0)/(v1-v0)));v.set(p[0],p[1],p[2]);m.localToWorld(v);v.project(cam);
+    const sx=(v.x+1)/2*W,sy=(1-v.y)/2*H;x0=Math.min(x0,sx);x1=Math.max(x1,sx);y0=Math.min(y0,sy);y1=Math.max(y1,sy)}
+   if(x1<0||x0>W||y1<0||y0>H)continue;
+   out.push({src:'3d',text:b[4],x0:Math.max(0,x0),y0:Math.max(0,y0),x1:Math.min(W,x1),y1:Math.min(H,y1)})}});
+ return out};
+window.INFO={ss:SS,ms:MS,aniso:ANISO,renderer:(()=>{const gl=r.getContext(),e=gl.getExtension('WEBGL_debug_renderer_info');return e?gl.getParameter(e.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER)})()};
+window.DUR=CUES.dur;window.setT(0);window.READY=true;
+</script></body></html>
