@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<!-- One component alone on the stage: ?c=none|phone|laptop|notepad|price|envelope (none: the three stations and the two travels). Each parts module exports selfTest(stage), a 4 s timeline {dur, frame(t), times}.
+     Test page, never published. The scene contract is the one of the Reel pages: window.setT(t), window.DUR, window.TEXTRECTS(), window.READY. -->
+<script type="importmap">{"imports":{"three":"/kit/vendor/three-0.169.0/build/three.module.js","three/addons/":"/kit/vendor/three-0.169.0/examples/jsm/","kit/":"/kit/v1/"}}</script>
+<link rel="stylesheet" href="/kit/v1/kit.css">
+</head><body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script type="module">
+import { createStage } from 'kit/core/stage.js';
+import { createOverlays } from 'kit/core/overlays.js';
+import { installKit } from 'kit/core/cover.js';
+const c = new URLSearchParams(location.search).get('c') || 'none';
+const stage = await createStage({ cuesUrl: '/kit/v1/demo/cues_mesa.json' });
+createOverlays(stage, {});
+let st;
+if (c === 'none') {
+  // empty stage, 6 s: desk to phone in 0.7 s, travel 1 (phone to laptop) from 1.5 s, travel 2 (laptop to note) from 4.0 s
+  stage.camKey(0, 'desk', { cut: true }); stage.camKey(.7, 'phone', { tr: .7, ease: 'eo' });
+  stage.camTravel({ from: 'current', to: 'laptop', t0: 1.5, d: .75, craneT0: 1.76, craneD: .49, panEase: 'eo' });
+  stage.camTravel({ from: 'current', to: 'note', t0: 4.0, d: .75 });
+  st = { dur: 6, frame: () => {}, times: [0, 1, 1.9, 2.5, 3.5, 4.4, 5.5] };
+} else {
+  const mod = { phone: 'phone', laptop: 'laptop', notepad: 'notepad', price: 'papers', envelope: 'envelope' }[c];
+  if (!mod) throw new Error('unknown component ' + c);
+  st = (await import('kit/parts/' + mod + '.js')).selfTest(stage, c);
+}
+installKit(stage);
+window.DUR = st.dur; window.TIMES = st.times; window.setT = t => stage.frame(t, st.frame); window.INFO = stage.info();
+window.setT(0); window.READY = true;
+</script></body></html>

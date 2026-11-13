@@ -1,0 +1,10 @@
+# Source of each byte copy listed in COPIES.sha256 (copied, not moved; the sources stay in the vault scratch folders).
+pace.py /Users/valmirjunior/dev/vision/scratch/fable-reel-objetos-v2b/tools/pace.py
+rate2.py /Users/valmirjunior/dev/vision/scratch/fable-reel-objetos-v2b/tools/rate2.py
+render_mac.js /Users/valmirjunior/dev/vision/scratch/reelPR2-compare/tools/render_mac.js
+framesheet.py /Users/valmirjunior/dev/vision/scratch/reelPR2-compare/tools/framesheet.py
+cover.js /Users/valmirjunior/dev/vision/scratch/reelPR2-publish/tools/cover.js
+sheet.py /Users/valmirjunior/dev/vision/scratch/fable-reel-objetos/tools/sheet.py
+measure.js /Users/valmirjunior/dev/vision/scratch/fable-reel-objetos/tools/measure.js
+gen_textures.py /Users/valmirjunior/dev/alvesaguiar-midia/reels/2026-11-preco-v2/tools/gen_textures.py (record of how the six copied maps were made)
+gen_textures_kit.py /Users/valmirjunior/dev/vision/scratch/reel-kit/fable/gen_textures_kit.py (Fable's tested draft, 2026-11-12)

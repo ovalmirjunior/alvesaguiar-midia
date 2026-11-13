@@ -1,0 +1,401 @@
+{
+ "reel": "kit-demo-v1",
+ "title": "Kit demo (test page, never published)",
+ "bar": [
+  [
+   "d0",
+   null
+  ],
+  [
+   "d1",
+   null
+  ],
+  [
+   "d2",
+   null
+  ],
+  [
+   "d3",
+   null
+  ],
+  [
+   "d4",
+   null
+  ],
+  [
+   "d5",
+   null
+  ]
+ ],
+ "segments": [
+  {
+   "id": "d0",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "Promoção no site?",
+     "hi": "site?",
+     "at": null
+    }
+   ],
+   "fx": {},
+   "t0": 0.0,
+   "t1": 2.38,
+   "words": [
+    [
+     0.25,
+     0.55,
+     "Promoção"
+    ],
+    [
+     0.58,
+     0.88,
+     "no"
+    ],
+    [
+     0.91,
+     1.21,
+     "site?"
+    ],
+    [
+     1.24,
+     1.54,
+     "Confira"
+    ],
+    [
+     1.57,
+     1.87,
+     "o"
+    ],
+    [
+     1.9,
+     2.2,
+     "histórico."
+    ]
+   ]
+  },
+  {
+   "id": "d1",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "De 4.000 por 2.000",
+     "hi": "por 2.000",
+     "at": "card"
+    }
+   ],
+   "fx": {
+    "card": "de",
+    "under1": "quatro",
+    "under2": "dois"
+   },
+   "t0": 2.38,
+   "t1": 6.08,
+   "words": [
+    [
+     2.63,
+     2.93,
+     "No"
+    ],
+    [
+     2.96,
+     3.26,
+     "celular,"
+    ],
+    [
+     3.29,
+     3.59,
+     "a"
+    ],
+    [
+     3.62,
+     3.92,
+     "TV:"
+    ],
+    [
+     3.95,
+     4.25,
+     "de"
+    ],
+    [
+     4.28,
+     4.58,
+     "quatro"
+    ],
+    [
+     4.61,
+     4.91,
+     "mil"
+    ],
+    [
+     4.94,
+     5.24,
+     "por"
+    ],
+    [
+     5.27,
+     5.57,
+     "dois"
+    ],
+    [
+     5.6,
+     5.9,
+     "mil."
+    ]
+   ]
+  },
+  {
+   "id": "d2",
+   "ramp": "tijolo",
+   "cards": [
+    {
+     "text": "2.000 desde agosto",
+     "hi": "desde agosto",
+     "at": "card"
+    }
+   ],
+   "fx": {
+    "card": "dois",
+    "open": "histórico",
+    "line": "dois"
+   },
+   "t0": 6.08,
+   "t1": 9.12,
+   "words": [
+    [
+     6.33,
+     6.63,
+     "Mas"
+    ],
+    [
+     6.66,
+     6.96,
+     "o"
+    ],
+    [
+     6.99,
+     7.29,
+     "histórico"
+    ],
+    [
+     7.32,
+     7.62,
+     "mostra:"
+    ],
+    [
+     7.65,
+     7.95,
+     "dois"
+    ],
+    [
+     7.98,
+     8.28,
+     "mil"
+    ],
+    [
+     8.31,
+     8.61,
+     "desde"
+    ],
+    [
+     8.64,
+     8.94,
+     "agosto."
+    ]
+   ]
+  },
+  {
+   "id": "d3",
+   "ramp": "tijolo",
+   "cards": [
+    {
+     "text": "A lei proíbe",
+     "hi": "proíbe",
+     "at": "card",
+     "t": 9.0
+    }
+   ],
+   "fx": {
+    "card": "lei",
+    "cite": "artigo",
+    "mark1": "proíbe",
+    "mark2": "publicidade",
+    "scroll": "trinta",
+    "mark3": "sete",
+    "mark4": "código"
+   },
+   "t0": 9.12,
+   "t1": 14.14,
+   "words": [
+    [
+     9.37,
+     9.67,
+     "Mas"
+    ],
+    [
+     9.7,
+     10.0,
+     "a"
+    ],
+    [
+     10.03,
+     10.33,
+     "lei"
+    ],
+    [
+     10.36,
+     10.66,
+     "proíbe"
+    ],
+    [
+     10.69,
+     10.99,
+     "publicidade"
+    ],
+    [
+     11.02,
+     11.32,
+     "enganosa:"
+    ],
+    [
+     11.35,
+     11.65,
+     "artigo"
+    ],
+    [
+     11.68,
+     11.98,
+     "trinta"
+    ],
+    [
+     12.01,
+     12.31,
+     "e"
+    ],
+    [
+     12.34,
+     12.64,
+     "sete"
+    ],
+    [
+     12.67,
+     12.97,
+     "do"
+    ],
+    [
+     13.0,
+     13.3,
+     "Código"
+    ],
+    [
+     13.33,
+     13.63,
+     "do"
+    ],
+    [
+     13.66,
+     13.96,
+     "Consumidor."
+    ]
+   ],
+   "cite": "CDC, art. 37, caput e § 1º",
+   "cite_at": "cite",
+   "cite_t1": 14.0
+  },
+  {
+   "id": "d4",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "Print e Procon",
+     "hi": "Procon",
+     "at": "card",
+     "t": 14.0
+    }
+   ],
+   "fx": {
+    "card": "print",
+    "cite": "procon",
+    "write1": "print",
+    "write2": "procon"
+   },
+   "t0": 14.14,
+   "t1": 16.19,
+   "words": [
+    [
+     14.39,
+     14.69,
+     "Então"
+    ],
+    [
+     14.72,
+     15.02,
+     "anote:"
+    ],
+    [
+     15.05,
+     15.35,
+     "print"
+    ],
+    [
+     15.38,
+     15.68,
+     "e"
+    ],
+    [
+     15.71,
+     16.01,
+     "Procon."
+    ]
+   ],
+   "cite": "Decreto 2.181/1997, art. 4º",
+   "cite_at": "cite",
+   "cite_t1": 18.0
+  },
+  {
+   "id": "d5",
+   "ramp": "ambar",
+   "cards": [
+    {
+     "text": "Mande para quem vai comprar",
+     "hi": "comprar.",
+     "at": null
+    }
+   ],
+   "fx": {
+    "close": "mande"
+   },
+   "t0": 16.19,
+   "t1": 18.24,
+   "words": [
+    [
+     16.44,
+     16.74,
+     "Mande"
+    ],
+    [
+     16.77,
+     17.07,
+     "para"
+    ],
+    [
+     17.1,
+     17.4,
+     "quem"
+    ],
+    [
+     17.43,
+     17.73,
+     "vai"
+    ],
+    [
+     17.76,
+     18.06,
+     "comprar."
+    ]
+   ]
+  }
+ ],
+ "end_t": 18.5,
+ "dur": 21.0
+}

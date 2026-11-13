@@ -1,0 +1,20 @@
+// Entry of kit v1: re-exports every module. A Reel page imports from 'kit/kit.js' (the import map maps kit/ to /kit/v1/).
+export * from './core/palette.js';
+export * from './core/rng.js';
+export * from './core/timing.js';
+export * from './core/text.js';
+export * from './core/stage.js';
+export * from './core/shadow.js';
+export * from './core/overlays.js';
+export * from './core/cover.js';
+export { createPhone } from './parts/phone.js';
+export { storePage, drawTV } from './parts/screens.js';
+export { createPriceHistory, createPrint } from './parts/papers.js';
+export { createEnvelope } from './parts/envelope.js';
+export { createLaptop, DEMO_DOC } from './parts/laptop.js';
+export { createNotepad } from './parts/notepad.js';
+export * as phonePart from './parts/phone.js';
+export * as papersPart from './parts/papers.js';
+export * as envelopePart from './parts/envelope.js';
+export * as laptopPart from './parts/laptop.js';
+export * as notepadPart from './parts/notepad.js';

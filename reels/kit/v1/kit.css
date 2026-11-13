@@ -1,0 +1,44 @@
+/* Overlay styles of the kit (MESA lines 12 to 46) with kit font URLs, plus #thumb (cover) and the text-off switch.
+   Type floor: every text measures at least 34 px on screen, so the end card sizes of MESA (28 to 32 px) are 34 px here. */
+@font-face{font-family:P;src:url(/kit/assets/fonts/f1/Poppins-Bold.ttf)}
+@font-face{font-family:NR;font-weight:500;src:url(/kit/assets/fonts/f1/newsreader-latin-500-normal.woff2)}
+@font-face{font-family:NR;font-weight:400;font-style:italic;src:url(/kit/assets/fonts/f1/newsreader-latin-400-italic.woff2)}
+@font-face{font-family:HG;font-weight:400;src:url(/kit/assets/fonts/f1/hanken-grotesk-latin-400-normal.woff2)}
+@font-face{font-family:HG;font-weight:600;src:url(/kit/assets/fonts/f1/hanken-grotesk-latin-600-normal.woff2)}
+@font-face{font-family:HG;font-weight:700;src:url(/kit/assets/fonts/f1/hanken-grotesk-latin-700-normal.woff2)}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#0A0C10}
+#c{position:absolute;inset:0;width:1080px;height:1920px}
+.bar{position:absolute;top:268px;left:56px;right:56px;height:20px;display:flex;gap:10px;opacity:0}
+.bar i{flex:1;background:rgba(242,244,247,.16);border-radius:10px;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(242,244,247,.36)}
+.bar b{display:block;height:100%;width:0;border-radius:10px}
+.hd{position:absolute;left:56px;top:312px;width:968px;color:#F2F4F7;opacity:0}
+.ttl{position:relative;font:700 92px/1.1 P;letter-spacing:-1px;white-space:nowrap;text-shadow:0 3px 18px rgba(0,0,0,.6)}
+.ttl b{font-weight:700}
+.rule{margin-top:6px;height:8px;border-radius:4px;width:0}
+.cap{position:absolute;left:40px;width:840px;top:1436px;text-align:center;opacity:0}
+.pill{display:inline-block;position:relative;padding:.093em .349em .163em;border-radius:.349em;background:rgba(10,12,16,.9);box-shadow:inset 0 0 0 2px rgba(242,244,247,.18);font:700 86px/1.2 P;color:#F2F4F7;white-space:nowrap}
+.pill .on{color:var(--on,#F2C14E)}.pill .next{color:rgba(242,244,247,.45)}
+.cite{position:absolute;left:180px;width:700px;top:1582px;text-align:center;opacity:0}
+.cite span{display:inline-block;position:relative;padding:.262em .714em .31em;border-radius:.95em;background:rgba(10,12,16,.92);box-shadow:inset 0 0 0 3px #F2F4F7;color:#F2F4F7;font:700 42px/1.1 P;white-space:nowrap}
+.badge{position:absolute;left:60px;top:1592px;width:100px;height:100px;box-sizing:border-box;border-radius:50%;border:2px solid #F2F4F7;background:rgba(31,63,110,.7);opacity:.6;display:flex;align-items:center;justify-content:center}
+.end{position:absolute;inset:0;color:#F2F4F7;font-family:HG,'Helvetica Neue',Arial,sans-serif;background:#1F3F6E;opacity:0;display:none}
+.end .f{position:absolute;left:104px;right:194px}
+.end .ehead{top:300px;display:flex;align-items:center;gap:22px}
+.end .ehead span{font-weight:600;font-size:34px;letter-spacing:.2em;text-transform:uppercase;color:#C3CCDA;white-space:nowrap}
+.end .erule{top:446px;height:2px;background:rgba(157,180,214,.35)}
+.end .elabel{top:590px;font-weight:700;font-size:34px;letter-spacing:.16em;text-transform:uppercase;color:#F2C14E}
+.end h1{top:640px;margin:0;font-family:NR,Georgia,serif;font-weight:500;font-size:132px;line-height:.98;letter-spacing:-.03em;color:#F2F4F7}
+.end h1 em{font-style:normal;color:#F2C14E}
+.end .edisc{top:1090px;font-size:36px;line-height:1.42;color:#C3CCDA}
+.end .esign{top:1330px;display:flex;flex-wrap:wrap;align-items:center;gap:30px;padding-top:44px;border-top:2px solid rgba(157,180,214,.35)}
+.end .nm{font-family:NR,Georgia,serif;font-style:italic;font-weight:400;font-size:66px;line-height:1;color:#F2F4F7;white-space:nowrap}
+.end .oab{margin-top:12px;font-weight:600;font-size:34px;letter-spacing:.12em;color:#C3CCDA;white-space:nowrap}
+.end .url{flex-basis:100%;margin:0;font-size:36px;letter-spacing:.04em;color:#C3CCDA}
+/* the end card gradient (radial-gradient(120% 70% at 50% 38%, #24497f 0%, #1F3F6E 55%, #183358 100%)) is drawn by core/overlays.js into an image: a CSS gradient is dithered
+   differently the first time and after a repaint, so a frame inside the 0.2 s fade would not be the same in every order */
+/* cover plate (core/cover.js) */
+#thumb{position:absolute;display:none;box-sizing:border-box;font-family:P,'Helvetica Neue',Arial,sans-serif;font-weight:700;color:#F2F4F7;background:rgba(10,12,16,.92);border-radius:28px;white-space:nowrap}
+#thumb div{display:block}
+/* text-off: the text becomes transparent; plates, pills, rules, layout, camera, light and grain do not change */
+.kit-notext #hd,.kit-notext #cap,.kit-notext #cite,.kit-notext #end,.kit-notext #thumb,
+.kit-notext #hd *,.kit-notext #cap *,.kit-notext #cite *,.kit-notext #end *,.kit-notext #thumb *{color:transparent !important;text-shadow:none !important}

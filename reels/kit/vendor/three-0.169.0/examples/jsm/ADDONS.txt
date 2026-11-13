@@ -1,0 +1,1 @@
+v1 imports no addon. A later version that imports an addon adds its byte copy under this folder and lists it here with its sha256.

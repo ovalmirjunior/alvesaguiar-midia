@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<!-- Kit v1 demo Reel, 21.0 s: a test page, never published. One leather mat holds every object: the phone and the price sheet at its left, the laptop at its far right, the notepad, pen and envelope in front of the laptop;
+     the camera travels between the three stations (no cut).
+     Words reuse the reelPR2 narration ideas and make no new legal claim; the law text on the laptop is verbatim from reelPR2 script.md section 5 item 1 (Lei 8.078/1990, CDC, art. 37 caput and § 1º).
+     Frame at time t depends only on t: window.setT(t). Cues: ?cues= or cues_mesa.json beside this page. window.READY turns true after fonts, cues and textures loaded.
+     Quality switches in the URL: ?ss=1|2|3, ?ms=0|2|4, ?notext=1 (text-off), and the material overrides matc, mats, mate, wear, stc, woodc, woode, alum, alur, lapE. -->
+<script type="importmap">{"imports":{"three":"/kit/vendor/three-0.169.0/build/three.module.js","three/addons/":"/kit/vendor/three-0.169.0/examples/jsm/","kit/":"/kit/v1/"}}</script>
+<link rel="stylesheet" href="/kit/v1/kit.css">
+</head><body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script type="module">
+import { createStage } from 'kit/core/stage.js';
+import { createOverlays } from 'kit/core/overlays.js';
+import { installKit } from 'kit/core/cover.js';
+import { sm } from 'kit/core/timing.js';
+import { createPhone } from 'kit/parts/phone.js';
+import { createPriceHistory } from 'kit/parts/papers.js';
+import { createLaptop } from 'kit/parts/laptop.js';
+import { createNotepad } from 'kit/parts/notepad.js';
+import { createEnvelope } from 'kit/parts/envelope.js';
+
+const stage = await createStage();
+const overlays = createOverlays(stage, {});
+overlays.endCard({ label: 'Direito do consumidor', headline: ['Mande para', 'quem vai', 'comprar.'], em: 'comprar.' });
+const fx = stage.cues.fx;
+
+// ---------- components (ramps: ambar for d0, d1, d4, d5 and the phone; tijolo for d2, d3 and what they show)
+const phone = createPhone(stage, { ramp: 'ambar' });
+const price = createPriceHistory(stage, { ramp: 'tijolo' });
+const laptop = createLaptop(stage, { ramp: 'tijolo' });
+const pad = createNotepad(stage, { lines: ['Print', 'Procon'] });   // the pen rests beside the pad; the envelope waits under the pad
+const env = createEnvelope(stage, { label: 'PROCON' });
+
+// ---------- camera: start on the desk (wood around the mat), push to the phone station, nudges, travel 1 (phone to laptop: a pan, then a crane), a push inside the laptop station,
+// travel 2 (laptop to note), the closing push. There is no cut: everything sits on the same mat.
+stage.camKey(0, 'desk', { cut: true });
+stage.camKey(.70, 'phone', { tr: .70, ease: 'eo' });
+stage.camKey(4.98, 'phone', { tr: .70, dx: -.04 });
+stage.camKey(7.69, 'phone', { tr: .70, dx: .07 });
+// every move lasts at most 0.8 s (these last 0.75 s or less, counted in frames); the story card changes on the frame a travel starts (cues_mesa.json card times 9.0 and 14.0)
+stage.camTravel({ from: 'current', to: 'laptop', t0: 9.00, d: .75, craneT0: 9.26, craneD: .49, panEase: 'eo' });
+stage.camKey(12.40, { ...stage.SHOTS.laptop, dist: 1.94, name: 'laptop' }, { tr: .72 });
+stage.camTravel({ from: 'current', to: 'note', t0: 14.00, d: .75 });
+stage.closeOn(412 / 24, { px: 600, py: 850, scale: 1.10, tr: .75, station: 'note' });
+
+// ---------- beats; word cues come from cues_mesa.json
+const T_U1 = fx('d1', 'under1'), T_U2 = fx('d1', 'under2'), T_OPEN = fx('d2', 'open'), T_LINE = fx('d2', 'line');
+const T_M1 = fx('d3', 'mark1'), T_M2 = fx('d3', 'mark2'), T_SCROLL = fx('d3', 'scroll'), T_M3 = fx('d3', 'mark3'), T_M4 = fx('d3', 'mark4');
+const T_W1 = fx('d4', 'write1'), T_W2 = fx('d4', 'write2');
+const PHONE_EV = [{ on: .58, d: .22 }, { off: 8.80, d: .20 }];   // the phone display sleeps just before travel 1 so no phone text is on screen while the camera cranes
+const LAPTOP_EV = [{ on: 9.80, d: .20 }, { off: 13.70, d: .20 }];   // on when the crane ends, off before travel 2
+function pose(t) {
+  phone.power(t, PHONE_EV);
+  { const k1 = Math.round(sm((t - T_U1 + .05) / .35) * 30) / 30, k2 = Math.round(sm((t - T_U2 + .05) / .35) * 30) / 30; phone.screen.upd(k1 + '|' + k2, { u1: k1, u2: k2 }) }
+  price.slideIn(t, 1.20, { under: phone, d: .70 }); price.peek(t, 2.96); price.open(t, T_OPEN); price.drawLine(t, T_LINE);
+  laptop.lid(t, 9.10, { from: 0, to: 135, d: .70 }); laptop.lid(t, 13.90, { from: 135, to: 0, d: .55 }); laptop.power(t, LAPTOP_EV);
+  laptop.mark(t, T_M1, 'h1', .35); laptop.mark(t, T_M2, 'h2', .5); laptop.scroll(t, T_SCROLL, { from: 0, to: 1, d: .55 }); laptop.mark(t, T_M3, 'h3', .5); laptop.mark(t, T_M4, 'h4', .35);
+  pad.write(t, 0, T_W1, .50); pad.write(t, 1, T_W2, .55); pad.pen(t, { lift: [14.60, .42], rest: [16.35, .50] });
+  env.slide(t, 16.00); env.flap(t, 16.70);
+}
+installKit(stage);
+window.DUR = stage.cues.DUR; window.setT = t => stage.frame(t, pose); window.INFO = stage.info();
+window.setT(0); window.READY = true;
+</script></body></html>
